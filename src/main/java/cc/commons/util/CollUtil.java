@@ -124,24 +124,4 @@ public class CollUtil{
     public static <T> ArrayList<T> asList(T[] pArrays){
         return CollUtil.asCollection(pArrays,ArrayList.class);
     }
-
-    /**
-     * 复制旧集合的内容到新的集合
-     * <p>
-     * 集合类必须由一个无参构造函数
-     * </p>
-     * 
-     * @param pCopyToClazz
-     *            新集合类
-     * @param pCopyFrom
-     *            数据来源
-     * @return 包含原数据的新集合
-     * 
-     */
-    public static <T extends Collection<E>,E> T copy(Collection<E> pCopyFrom,Class<T> pCopyToClazz){
-        T tCopyTo=CollUtil.getInstance(pCopyToClazz);
-        tCopyTo.addAll(pCopyFrom);
-        return tCopyTo;
-    }
-
 }
