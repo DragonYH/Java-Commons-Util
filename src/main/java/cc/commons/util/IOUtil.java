@@ -1,5 +1,6 @@
 package cc.commons.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -121,7 +122,6 @@ public class IOUtil{
      * @throws IOException
      *             读取数据时发生错误
      * @throws UnsupportedEncodingException
-     *             - If the named charset is not supported
      */
     public static String readContent(InputStream pIPStream,String pEncoding) throws IOException{
         if(StringUtil.isEmpty(pEncoding)){
@@ -148,6 +148,21 @@ public class IOUtil{
             tSB.append(tBuff,0,readCount);
         }
         return tSB.toString();
+    }
+
+    /**
+     * 将流中的内容全部读取出来
+     * 
+     * @param pIStream
+     *            输入流
+     * @return 读取到的内容
+     * @throws IOException
+     *             读取数据时发生错误
+     */
+    public static byte[] readData(InputStream pIStream) throws IOException{
+        ByteArrayOutputStream tBAOStream=new ByteArrayOutputStream();
+        IOUtil.copy(pIStream,tBAOStream);
+        return tBAOStream.toByteArray();
     }
 
 }
