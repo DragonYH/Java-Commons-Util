@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -147,6 +148,63 @@ public class FileUtil{
             return IOUtil.readContent(tIPStream,pEncoding);
         }finally{
             IOUtil.closeStream(tIPStream);
+        }
+    }
+
+    /**
+     * 将文件内容全部读取出来
+     * 
+     * @param pFile
+     *            要读取的文件
+     * @return 文件内容
+     * @throws IOException
+     *             打开文件或读取数据时发生错误
+     */
+    public static byte[] readData(File pFile) throws IOException{
+        InputStream tIPStream=null;
+        try{
+            tIPStream=openInputStream(pFile);
+            return IOUtil.readData(tIPStream);
+        }finally{
+            IOUtil.closeStream(tIPStream);
+        }
+    }
+
+    /**
+     * 将文件内容全部读取出来
+     * 
+     * @param pFile
+     *            要读取的文件
+     * @param pData
+     *            写入的数据
+     * @throws IOException
+     *             打开文件或读取数据时发生错误
+     */
+    public static void writeData(File pFile,byte[] pData) throws IOException{
+        FileUtil.writeData(pFile,pData,0,pData.length);
+    }
+    
+    /**
+     * 将文件内容全部读取出来
+     * 
+     * @param pFile
+     *            要读取的文件
+     * @param pData
+     *            写入的数据
+     * @param pOffest
+     *            数据偏移量
+     * @param pLength
+     *            写入的数据长度
+     * @throws IOException
+     *             打开文件或读取数据时发生错误
+     */
+    public static void writeData(File pFile,byte[] pData,int pOffest,int pLength) throws IOException{
+        OutputStream tOStream=null;
+        try{
+            tOStream=openOutputStream(pFile,false);
+            tOStream.write(pData,pOffest,pLength);
+        }finally{
+            IOUtil.closeStream(tOStream);
         }
     }
 
