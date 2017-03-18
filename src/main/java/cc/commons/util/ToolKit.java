@@ -14,7 +14,7 @@ public class ToolKit{
      */
     public static void printStackTrace(){
         StackTraceElement[] tElements=Thread.currentThread().getStackTrace();
-        for(int i=1;i<tElements.length;i++){
+        for(int i=2;i<tElements.length;i++){
             System.out.println(tElements[i]);
         }
     }
