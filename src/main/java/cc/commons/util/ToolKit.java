@@ -54,4 +54,8 @@ public class ToolKit{
         }
         return tData;
     }
+    
+    public static int between(int pMin,int pMax,int pValue){
+        return Math.max(pMin,Math.min(pMax,pValue));
+    }
 }
