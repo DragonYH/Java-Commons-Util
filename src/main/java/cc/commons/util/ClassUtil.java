@@ -9,6 +9,8 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import cc.commons.util.interfaces.IFilter;
+
 public class ClassUtil{
 
     /**
@@ -1216,26 +1218,6 @@ public class ClassUtil{
             pObjs=(T[])Array.newInstance(pClazz,0);
         }
         return pObjs;
-    }
-
-    /***
-     * 
-     * 过滤器
-     * 
-     * @param <T>
-     *            过滤类的类型
-     */
-    public static interface IFilter<T>{
-
-        /**
-         * 是否接受该实例
-         * 
-         * @param pObj
-         *            过滤的实例
-         * @return 是否接受
-         */
-        public boolean accept(T pObj);
-
     }
 
 }
