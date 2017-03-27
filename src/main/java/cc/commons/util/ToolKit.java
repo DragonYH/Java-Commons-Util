@@ -79,7 +79,7 @@ public class ToolKit{
      *            如果转换失败返回的默认值
      * @return 数字
      */
-    public int paseIntOrDefault(String pStr,int pDefValue){
+    public static int paseIntOrDefault(String pStr,int pDefValue){
         try{
             return Integer.parseInt(pStr);
         }catch(NumberFormatException exp){
