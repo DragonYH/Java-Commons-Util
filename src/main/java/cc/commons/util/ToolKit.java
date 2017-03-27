@@ -54,8 +54,36 @@ public class ToolKit{
         }
         return tData;
     }
-    
+
+    /**
+     * 取不超过范围的值
+     * 
+     * @param pMin
+     *            最小值
+     * @param pMax
+     *            最大值
+     * @param pValue
+     *            当前输入值
+     * @return 调整后的值
+     */
     public static int between(int pMin,int pMax,int pValue){
         return Math.max(pMin,Math.min(pMax,pValue));
+    }
+
+    /**
+     * 转换字符串为数值
+     * 
+     * @param pStr
+     *            数值字符串
+     * @param pDefValue
+     *            如果转换失败返回的默认值
+     * @return 数字
+     */
+    public int paseIntOrDefault(String pStr,int pDefValue){
+        try{
+            return Integer.parseInt(pStr);
+        }catch(NumberFormatException exp){
+            return pDefValue;
+        }
     }
 }
