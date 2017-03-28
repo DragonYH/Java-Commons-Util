@@ -72,6 +72,9 @@ public class ToolKit{
 
     /**
      * 转换字符串为数值
+     * <p>
+     * 首次转换失败将尝试调出字符串中的合法字符进行再次转换,再次转换失败,则返回默认值
+     * </p>
      * 
      * @param pStr
      *            数值字符串
@@ -80,10 +83,44 @@ public class ToolKit{
      * @return 数字
      */
     public static int paseIntOrDefault(String pStr,int pDefValue){
-        try{
-            return Integer.parseInt(pStr);
-        }catch(NumberFormatException exp){
+        return paseIntOrDefault(pStr,10,pDefValue);
+    }
+
+    /**
+     * 转换字符串为数值
+     * <p>
+     * 首次转换失败将尝试调出字符串中的合法字符进行再次转换,再次转换失败,则返回默认值
+     * </p>
+     * 
+     * @param pStr
+     *            数值字符串
+     * @param pRadix
+     *            转换进制
+     * @param pDefValue
+     *            如果转换失败返回的默认值
+     * @return 数字
+     */
+    public static int paseIntOrDefault(String pStr,int pRadix,int pDefValue){
+        if(StringUtil.isEmpty(pStr))
             return pDefValue;
+
+        try{
+            return Integer.parseInt(pStr,pRadix);
+        }catch(NumberFormatException exp){
+            int tMaxCharValue=pRadix+'0';
+            StringBuilder tSB=new StringBuilder();
+            pStr=pStr.toLowerCase();
+            for(int i=0;i<pStr.length();i++){
+                char c=pStr.charAt(i);
+                if(c>='0'&&c<tMaxCharValue){
+                    tSB.append(c);
+                }
+            }
+            try{
+                return Integer.parseInt(tSB.toString(),pRadix);
+            }catch(NumberFormatException expc){
+                return pDefValue;
+            }
         }
     }
 }
