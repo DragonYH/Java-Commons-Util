@@ -47,7 +47,6 @@ public class CharsetUtil{
      * @return 之前的最大长度
      */
     public static int setMaxJudgeLen(int pLength){
-        int tOldLen=CharsetUtil.mMaxJudgeLen;
         if(pLength>=512*1024){
             CharsetUtil.mMaxJudgeLen=pLength;
         }
