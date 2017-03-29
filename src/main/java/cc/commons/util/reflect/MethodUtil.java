@@ -104,7 +104,7 @@ public class MethodUtil{
                     return true;
                 }
             }
-        }while(!pDeclared&&(pClazz.getSuperclass())!=null);
+        }while(!pDeclared&&(pClazz=pClazz.getSuperclass())!=null);
 
         return false;
     }
@@ -221,7 +221,7 @@ public class MethodUtil{
                     return sMethod;
                 }
             }
-        }while(!pDeclared&&(pClazz.getSuperclass())!=null);
+        }while(!pDeclared&&(pClazz=pClazz.getSuperclass())!=null);
 
         throw new IllegalStateException(NO_SUCH_METHOD+"(方法名字: "+pMethodName+",参数类型: "+Arrays.toString(pParamsTypes)+")");
     }
