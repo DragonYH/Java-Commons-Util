@@ -49,14 +49,55 @@ public class MethodUtil{
 
     // --------====| 检查方法 |====--------
 
-    public static boolean isMethodExist(Class<?> pClazz,String pMethodName,Class<?>[] pParamTypes,boolean pDeclared,boolean pIgnoreParam){
-        if(!pIgnoreParam){
-            pParamTypes=MethodUtil.checkTypeA(Class.class,pParamTypes);
-        }
+    /**
+     * 检查无参数方法是否存在
+     * 
+     * @param pClazz
+     *            类
+     * @param pMethodName
+     *            方法名
+     * @param pDeclared
+     *            是否只检索该类定义的方法而不检索父类的值域
+     * @return 是否存在
+     */
+    public static boolean isMethodExist(Class<?> pClazz,String pMethodName,boolean pDeclared){
+        return MethodUtil.isMethodExist(pClazz,pMethodName,new Class<?>[0],pDeclared);
+    }
 
+    /**
+     * 检查但参数方法是否存在
+     * 
+     * @param pClazz
+     *            类
+     * @param pMethodName
+     *            方法名
+     * @param pParamType
+     *            参数类型
+     * @param pDeclared
+     *            是否只检索该类定义的方法而不检索父类的值域
+     * @return 是否存在
+     */
+    public static boolean isMethodExist(Class<?> pClazz,String pMethodName,Class<?> pParamType,boolean pDeclared){
+        return MethodUtil.isMethodExist(pClazz,pMethodName,new Class<?>[]{pParamType},pDeclared);
+    }
+
+    /**
+     * 检查方法是否存在
+     * 
+     * @param pClazz
+     *            类
+     * @param pMethodName
+     *            方法名
+     * @param pParamTypes
+     *            参数类型
+     * @param pDeclared
+     *            是否只检索该类定义的方法而不检索父类的值域
+     * @return 是否存在
+     */
+    public static boolean isMethodExist(Class<?> pClazz,String pMethodName,Class<?>[] pParamTypes,boolean pDeclared){
         do{
             for(Method sMethod : pClazz.getDeclaredMethods()){
-                if(sMethod.getName().equals(pMethodName)&&(pIgnoreParam||Arrays.equals(sMethod.getParameterTypes(),pParamTypes))){
+                if(sMethod.getName().equals(pMethodName)&&Arrays.equals(sMethod.getParameterTypes(),pParamTypes)){
                     return true;
                 }
             }
@@ -65,16 +106,57 @@ public class MethodUtil{
         return false;
     }
 
-    public static boolean isMethodExist(Class<?> pClazz,String[] pMethodNames,Class<?>[] pParamTypes,boolean pDeclared,boolean pIgnoreParam){
-        MethodUtil.checkMethodA(pMethodNames);
-        if(!pIgnoreParam){
-            pParamTypes=MethodUtil.checkTypeA(Class.class,pParamTypes);
-        }
+    /**
+     * 检查无参数方法是否存在
+     * 
+     * @param pClazz
+     *            类
+     * @param pMethodNames
+     *            可能的方法名
+     * @param pDeclared
+     *            是否只检索该类定义的方法而不检索父类的值域
+     * @return 是否存在
+     */
+    public static boolean isMethodExist(Class<?> pClazz,String[] pMethodNames,boolean pDeclared){
+        return MethodUtil.isMethodExist(pClazz,pMethodNames,new Class<?>[0],pDeclared);
+    }
 
+    /**
+     * 检查单参数方法是否存在
+     * 
+     * @param pClazz
+     *            类
+     * @param pMethodNames
+     *            可能的方法名
+     * @param pParamType
+     *            参数类型
+     * @param pDeclared
+     *            是否只检索该类定义的方法而不检索父类的值域
+     * @return 是否存在
+     */
+    public static boolean isMethodExist(Class<?> pClazz,String[] pMethodNames,Class<?> pParamType,boolean pDeclared){
+        return MethodUtil.isMethodExist(pClazz,pMethodNames,new Class<?>[]{pParamType},pDeclared);
+    }
+
+    /**
+     * 检查方法是否存在
+     * 
+     * @param pClazz
+     *            类
+     * @param pMethodNames
+     *            可能的方法名
+     * @param pParamTypes
+     *            参数类型
+     * @param pDeclared
+     *            是否只检索该类定义的方法而不检索父类的值域
+     * @return 是否存在
+     */
+    public static boolean isMethodExist(Class<?> pClazz,String[] pMethodNames,Class<?>[] pParamTypes,boolean pDeclared){
+        MethodUtil.checkMethodA(pMethodNames);
         do{
             for(Method sMethod : pClazz.getDeclaredMethods()){
                 for(String sMethodName : pMethodNames){
-                    if(sMethod.getName().equals(sMethodName)&&(pIgnoreParam||Arrays.equals(sMethod.getParameterTypes(),pParamTypes))){
+                    if(sMethod.getName().equals(sMethodName)&&Arrays.equals(sMethod.getParameterTypes(),pParamTypes)){
                         return true;
                     }
                 }
@@ -85,22 +167,54 @@ public class MethodUtil{
     }
 
     /**
+     * 检查无参数方法是否存在
+     * 
+     * @param pClazz
+     *            类
+     * @param pReturnType
+     *            返回类型
+     * @param pDeclared
+     *            是否只检索该类定义的方法而不检索父类的值域
+     * @return 是否存在
+     */
+    public static boolean isMethodExist(Class<?> pClazz,Class<?> pReturnType,boolean pDeclared){
+        return MethodUtil.isMethodExist(pClazz,pReturnType,new Class<?>[0],pDeclared);
+    }
+
+    /**
+     * 检查单参数方法是否存在
+     * 
+     * @param pClazz
+     *            类
+     * @param pReturnType
+     *            返回类型
+     * @param pParamType
+     *            参数类型
+     * @param pDeclared
+     *            是否只检索该类定义的方法而不检索父类的值域
+     * @return 是否存在
+     */
+    public static boolean isMethodExist(Class<?> pClazz,Class<?> pReturnType,Class<?> pParamType,boolean pDeclared){
+        return MethodUtil.isMethodExist(pClazz,pReturnType,new Class<?>[]{pParamType},pDeclared);
+    }
+
+    /**
      * 检查方法是否存在
      * 
      * @param pClazz
      *            类
      * @param pReturnType
      *            返回类型
-     * @param pParamsType
+     * @param pParamTypes
      *            参数类型
      * @param pDeclared
      *            是否只检索该类定义的方法而不检索父类的值域
      * @return 是否存在
      */
-    public static boolean isMethodExist(Class<?> pClazz,Class<?> pReturnType,Class<?>[] pParamsType,boolean pDeclared){
+    public static boolean isMethodExist(Class<?> pClazz,Class<?> pReturnType,Class<?>[] pParamTypes,boolean pDeclared){
         do{
             for(Method sMethod : pClazz.getDeclaredMethods()){
-                if(sMethod.getReturnType()==pReturnType&&Arrays.equals(sMethod.getParameterTypes(),pParamsType)){
+                if(sMethod.getReturnType()==pReturnType&&Arrays.equals(sMethod.getParameterTypes(),pParamTypes)){
                     return true;
                 }
             }
@@ -271,7 +385,7 @@ public class MethodUtil{
      *            类
      * @param pMethodNames
      *            可能的方法名
-     * @param pParamsTypes
+     * @param pParamTypes
      *            参数类型
      * @param pDeclared
      *            是否只检索该类定义的方法而不检索父类的方法
@@ -279,19 +393,19 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法
      */
-    public static Method getMethod(Class<?> pClazz,String[] pMethodNames,Class<?>[] pParamsTypes,boolean pDeclared){
+    public static Method getMethod(Class<?> pClazz,String[] pMethodNames,Class<?>[] pParamTypes,boolean pDeclared){
         MethodUtil.checkMethodA(pMethodNames);
 
         do{
             for(Method sMethod : pClazz.getDeclaredMethods()){
                 for(String sMethodName : pMethodNames){
-                    if(sMethod.getName().equals(sMethodName)&&Arrays.equals(sMethod.getParameterTypes(),pParamsTypes))
+                    if(sMethod.getName().equals(sMethodName)&&Arrays.equals(sMethod.getParameterTypes(),pParamTypes))
                         return sMethod;
                 }
             }
         }while(!pDeclared&&(pClazz=pClazz.getSuperclass())!=null);
 
-        throw new IllegalStateException(NO_SUCH_METHOD+"(可能的方法名: "+Arrays.toString(pMethodNames)+",参数类型: "+Arrays.toString(pParamsTypes)+")");
+        throw new IllegalStateException(NO_SUCH_METHOD+"(可能的方法名: "+Arrays.toString(pMethodNames)+",参数类型: "+Arrays.toString(pParamTypes)+")");
 
     }
 
@@ -367,7 +481,7 @@ public class MethodUtil{
      *            类
      * @param pReturnType
      *            返回类型
-     * @param pParamsTypes
+     * @param pParamTypes
      *            参数类型
      * @param pDeclared
      *            是否只检索该类定义的方法而不检索父类的值域
@@ -375,11 +489,11 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法
      */
-    public static ArrayList<Method> getUnknowMethod(Class<?> pClazz,Class<?> pReturnType,Class<?>[] pParamsTypes,boolean pDeclared){
+    public static ArrayList<Method> getUnknowMethod(Class<?> pClazz,Class<?> pReturnType,Class<?>[] pParamTypes,boolean pDeclared){
         ArrayList<Method> tFoundMethods=new ArrayList<>();
         do{
             for(Method sMethod : pClazz.getDeclaredMethods()){
-                if(sMethod.getReturnType().equals(pReturnType)&&Arrays.equals(sMethod.getParameterTypes(),pParamsTypes)){
+                if(sMethod.getReturnType().equals(pReturnType)&&Arrays.equals(sMethod.getParameterTypes(),pParamTypes)){
                     tFoundMethods.add(sMethod);
                 }
             }
@@ -388,7 +502,7 @@ public class MethodUtil{
         if(!tFoundMethods.isEmpty()){
             return tFoundMethods;
         }
-        throw new IllegalStateException(NO_SUCH_METHOD+"(返回类型: "+pReturnType.getName()+",参数类型: "+Arrays.toString(pParamsTypes)+")");
+        throw new IllegalStateException(NO_SUCH_METHOD+"(返回类型: "+pReturnType.getName()+",参数类型: "+Arrays.toString(pParamTypes)+")");
     }
 
     // --------====| 执行方法 |====--------
@@ -477,7 +591,7 @@ public class MethodUtil{
      *            要执行方法的实例,如果方法为静态,可以为null
      * @param pMethodName
      *            方法名
-     * @param pParamsTypes
+     * @param pParamTypes
      *            参数类型
      * @param pParams
      *            参数
@@ -487,8 +601,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeMethod(Class<?> pClazz,Object pObj,String pMethodName,Class<?>[] pParamsTypes,Object[] pParams,boolean pDeclared){
-        return MethodUtil.invokeMethod(MethodUtil.getMethod(pClazz,pMethodName,pParamsTypes,pDeclared),pObj,pParams);
+    public static Object invokeMethod(Class<?> pClazz,Object pObj,String pMethodName,Class<?>[] pParamTypes,Object[] pParams,boolean pDeclared){
+        return MethodUtil.invokeMethod(MethodUtil.getMethod(pClazz,pMethodName,pParamTypes,pDeclared),pObj,pParams);
     }
 
     /**
@@ -519,7 +633,7 @@ public class MethodUtil{
      *            要执行方法的实例,如果方法为静态,可以为null
      * @param pMethodNames
      *            可能的方法名
-     * @param pParamsType
+     * @param pParamType
      *            参数类型
      * @param pParam
      *            参数
@@ -529,8 +643,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeMethod(Class<?> pClazz,Object pObj,String[] pMethodNames,Class<?> pParamsType,Object pParam,boolean pDeclared){
-        return MethodUtil.invokeMethod(MethodUtil.getMethod(pClazz,pMethodNames,pParamsType,pDeclared),pObj,pParam);
+    public static Object invokeMethod(Class<?> pClazz,Object pObj,String[] pMethodNames,Class<?> pParamType,Object pParam,boolean pDeclared){
+        return MethodUtil.invokeMethod(MethodUtil.getMethod(pClazz,pMethodNames,pParamType,pDeclared),pObj,pParam);
     }
 
     /**
@@ -542,7 +656,7 @@ public class MethodUtil{
      *            要执行方法的实例,如果方法为静态,可以为null
      * @param pMethodNames
      *            可能的方法名
-     * @param pParamsTypes
+     * @param pParamTypes
      *            参数类型
      * @param pParams
      *            参数
@@ -552,8 +666,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeMethod(Class<?> pClazz,Object pObj,String[] pMethodNames,Class<?>[] pParamsTypes,Object[] pParams,boolean pDeclared){
-        return MethodUtil.invokeMethod(MethodUtil.getMethod(pClazz,pMethodNames,pParamsTypes,pDeclared),pObj,pParams);
+    public static Object invokeMethod(Class<?> pClazz,Object pObj,String[] pMethodNames,Class<?>[] pParamTypes,Object[] pParams,boolean pDeclared){
+        return MethodUtil.invokeMethod(MethodUtil.getMethod(pClazz,pMethodNames,pParamTypes,pDeclared),pObj,pParams);
     }
 
 }
