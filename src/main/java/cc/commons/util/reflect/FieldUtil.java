@@ -196,7 +196,7 @@ public class FieldUtil{
      * @param pModifier
      *            值域包含的值域修饰符,如果不限制则设置<=0
      * @param pDeclared
-     * 
+     *            是否只检索该类定义的值域而不检索父类的值域
      * @return 符合的值域,非空
      * @throws IllegalStateException
      *             没有符合条件的值域
