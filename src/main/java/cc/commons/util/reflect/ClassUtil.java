@@ -93,7 +93,7 @@ public class ClassUtil{
      * @return 实例
      */
     public static <T> T newInstance(Class<? extends T> pClazz){
-        return newInstance(pClazz,new Class<?>[]{},new Object[]{});
+        return ClassUtil.newInstance(pClazz,new Class<?>[]{},new Object[]{});
     }
 
     /**
@@ -108,7 +108,7 @@ public class ClassUtil{
      * @return 实例
      */
     public static <T> T newInstance(Class<? extends T> pClazz,Class<?> pParamType,Object pParam){
-        return newInstance(pClazz,new Class<?>[]{pParamType},new Object[]{pParam});
+        return ClassUtil.newInstance(pClazz,new Class<?>[]{pParamType},new Object[]{pParam});
     }
 
     /**
@@ -143,7 +143,7 @@ public class ClassUtil{
      * @return 实例
      */
     public static Object newInstance(String pClazz){
-        return newInstance(pClazz,new Class<?>[]{},new Object[]{});
+        return ClassUtil.newInstance(pClazz,new Class<?>[]{},new Object[]{});
     }
 
     /**
@@ -158,7 +158,7 @@ public class ClassUtil{
      * @return 实例
      */
     public static Object newInstance(String pClazz,Class<?> pParamClazz,Object pParam){
-        return newInstance(pClazz,new Class<?>[]{pParamClazz},new Object[]{pParam});
+        return ClassUtil.newInstance(pClazz,new Class<?>[]{pParamClazz},new Object[]{pParam});
     }
 
     /**
