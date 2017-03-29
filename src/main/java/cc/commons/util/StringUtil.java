@@ -78,6 +78,7 @@ public class StringUtil{
         int start,end;
         for(start=0;start<pChars.length&&tExclude.contains(tContent[start]);start++);
         for(end=tContent.length-1;end>start&&tExclude.contains(tContent[end]);end--);
+        end++;
         if(end<=start)
             return "";
         else return new String(tContent,start,end);
