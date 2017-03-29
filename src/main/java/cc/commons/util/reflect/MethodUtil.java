@@ -348,7 +348,7 @@ public class MethodUtil{
      *            类
      * @param pReturnType
      *            返回类型
-     * @param pParamClazz
+     * @param pParamType
      *            参数类型
      * @param pDeclared
      *            是否只检索该类定义的方法而不检索父类的值域
@@ -356,8 +356,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法
      */
-    public static ArrayList<Method> getUnknowMethod(Class<?> pClazz,Class<?> pReturnType,Class<?> pParamClazz,boolean pDeclared){
-        return getUnknowMethod(pClazz,pReturnType,new Class<?>[]{pParamClazz},pDeclared);
+    public static ArrayList<Method> getUnknowMethod(Class<?> pClazz,Class<?> pReturnType,Class<?> pParamType,boolean pDeclared){
+        return getUnknowMethod(pClazz,pReturnType,new Class<?>[]{pParamType},pDeclared);
     }
 
     /**
