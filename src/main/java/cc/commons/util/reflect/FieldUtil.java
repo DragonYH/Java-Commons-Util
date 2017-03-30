@@ -285,12 +285,10 @@ public class FieldUtil{
     }
 
     /**
-     * 获取值域的值
+     * 获取静态值域的值
      * 
      * @param pClazz
      *            类,用于获取值域
-     * @param pObj
-     *            要取值的实例,如果方法为静态,可以为null
      * @param pFieldName
      *            值域名
      * @param pDeclared
@@ -299,8 +297,8 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             没有符合条件的值域
      */
-    public static Object getFieldValue(Class<?> pClazz,Object pObj,String pFieldName,boolean pDeclared){
-        return FieldUtil.getFieldValue(FieldUtil.getField(pClazz,pFieldName,pDeclared),pObj);
+    public static Object getStaticFieldValue(Class<?> pClazz,String pFieldName,boolean pDeclared){
+        return FieldUtil.getFieldValue(FieldUtil.getField(pClazz,pFieldName,pDeclared),(Object)null);
     }
 
     /**
@@ -308,8 +306,26 @@ public class FieldUtil{
      * 
      * @param pClazz
      *            类,用于获取值域
+     * @param pFieldName
+     *            值域名
+     * @param pDeclared
+     *            是否只检索该类定义的值域而不检索父类的值域
      * @param pObj
      *            要取值的实例,如果方法为静态,可以为null
+     * @return 值域的值
+     * @throws IllegalStateException
+     *             没有符合条件的值域
+     */
+    public static Object getFieldValue(Class<?> pClazz,String pFieldName,boolean pDeclared,Object pObj){
+        return FieldUtil.getFieldValue(FieldUtil.getField(pClazz,pFieldName,pDeclared),pObj);
+    }
+
+    /**
+     * 获取静态值域的值
+     * 
+     * @param pClazz
+     *            类,用于获取值域
+     * 
      * @param pFieldNames
      *            可能的值域名
      * @param pDeclared
@@ -318,8 +334,45 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             没有符合条件的值域
      */
-    public static Object getFieldValue(Class<?> pClazz,Object pObj,String[] pFieldNames,boolean pDeclared){
+    public static Object getStaticFieldValue(Class<?> pClazz,String[] pFieldNames,boolean pDeclared){
+        return FieldUtil.getFieldValue(FieldUtil.getField(pClazz,pFieldNames,pDeclared),(Object)null);
+    }
+
+    /**
+     * 获取值域的值
+     * 
+     * @param pClazz
+     *            类,用于获取值域
+     * 
+     * @param pFieldNames
+     *            可能的值域名
+     * @param pDeclared
+     *            是否只检索该类定义的值域而不检索父类的值域
+     * @param pObj
+     *            要取值的实例,如果方法为静态,可以为null
+     * @return 值域的值
+     * @throws IllegalStateException
+     *             没有符合条件的值域
+     */
+    public static Object getFieldValue(Class<?> pClazz,String[] pFieldNames,boolean pDeclared,Object pObj){
         return FieldUtil.getFieldValue(FieldUtil.getField(pClazz,pFieldNames,pDeclared),pObj);
+    }
+
+    /**
+     * 获取静态值域的值
+     * 
+     * @param pClazz
+     *            类,用于获取值域
+     * @param pFilter
+     *            值域过滤器
+     * @param pDeclared
+     *            是否只检索该类定义的值域而不检索父类的值域
+     * @return 符合的值域的值,非空
+     * @throws IllegalStateException
+     *             反射操作发生异常,或没有符合条件的值域
+     */
+    public static <T> ArrayList<T> getStaticFieldValue(Class<?> pClazz,IFilter<Field> pFilter,boolean pDeclared){
+        return FieldUtil.getFieldValue(pClazz,pFilter,pDeclared,(Object)null);
     }
 
     /**
@@ -329,15 +382,15 @@ public class FieldUtil{
      *            类,用于获取值域
      * @param pFilter
      *            值域过滤器
-     * @param pObj
-     *            要取值的实例,如果方法为静态,可以为null
      * @param pDeclared
      *            是否只检索该类定义的值域而不检索父类的值域
+     * @param pObj
+     *            要取值的实例,如果方法为静态,可以为null
      * @return 符合的值域的值,非空
      * @throws IllegalStateException
      *             反射操作发生异常,或没有符合条件的值域
      */
-    public static <T> ArrayList<T> getFieldValue(Class<?> pClazz,IFilter<Field> pFilter,Object pObj,boolean pDeclared){
+    public static <T> ArrayList<T> getFieldValue(Class<?> pClazz,IFilter<Field> pFilter,boolean pDeclared,Object pObj){
         ArrayList<T> tFieldValues=new ArrayList<>();
         for(Field sField : FieldUtil.getField(pClazz,pFilter,pDeclared)){
             FieldUtil.getFieldValue(sField,pObj);
@@ -383,23 +436,22 @@ public class FieldUtil{
     }
 
     /**
-     * 设置值域的值
+     * 设置静态值域的值
      * 
      * @param pClazz
      *            类,用于获取值域
-     * @param pObj
-     *            要设置值的实例,如果值域为静态,可以为null
+     * 
      * @param pFieldName
      *            值域名
-     * @param pValue
-     *            要设置成的值
      * @param pDeclared
      *            是否只检索该类定义的值域而不检索父类的值域
+     * @param pValue
+     *            要设置成的值
      * @throws IllegalStateException
      *             反射操作发生异常,或没有符合条件的值域
      */
-    public static void setFieldValue(Class<?> pClazz,Object pObj,String pFieldName,Object pValue,boolean pDeclared){
-        FieldUtil.setFieldValue(FieldUtil.getField(pClazz,pFieldName,pDeclared),pObj,pValue);
+    public static void setStaticFieldValue(Class<?> pClazz,String pFieldName,boolean pDeclared,Object pValue){
+        FieldUtil.setFieldValue(pClazz,pFieldName,pDeclared,(Object)null,pValue);
     }
 
     /**
@@ -407,18 +459,57 @@ public class FieldUtil{
      * 
      * @param pClazz
      *            类,用于获取值域
-     * @param pObj
-     *            要设置值的实例,如果值域为静态,可以为null
-     * @param pFieldNames
-     *            可能的值域名
-     * @param pValue
-     *            要设置成的值
+     * 
+     * @param pFieldName
+     *            值域名
      * @param pDeclared
      *            是否只检索该类定义的值域而不检索父类的值域
+     * @param pObj
+     *            要设置值的实例,如果值域为静态,可以为null
+     * @param pValue
+     *            要设置成的值
      * @throws IllegalStateException
      *             反射操作发生异常,或没有符合条件的值域
      */
-    public static void setFieldValue(Class<?> pClazz,Object pObj,String[] pFieldNames,Object pValue,boolean pDeclared){
+    public static void setFieldValue(Class<?> pClazz,String pFieldName,boolean pDeclared,Object pObj,Object pValue){
+        FieldUtil.setFieldValue(FieldUtil.getField(pClazz,pFieldName,pDeclared),pObj,pValue);
+    }
+
+    /**
+     * 设置静态值域的值
+     * 
+     * @param pClazz
+     *            类,用于获取值域
+     * @param pFieldNames
+     *            可能的值域名
+     * @param pDeclared
+     *            是否只检索该类定义的值域而不检索父类的值域
+     * @param pValue
+     *            要设置成的值
+     * @throws IllegalStateException
+     *             反射操作发生异常,或没有符合条件的值域
+     */
+    public static void setStaticFieldValue(Class<?> pClazz,String[] pFieldNames,boolean pDeclared,Object pValue){
+        FieldUtil.setFieldValue(pClazz,pFieldNames,pDeclared,(Object)null,pValue);
+    }
+
+    /**
+     * 设置值域的值
+     * 
+     * @param pClazz
+     *            类,用于获取值域
+     * @param pFieldNames
+     *            可能的值域名
+     * @param pDeclared
+     *            是否只检索该类定义的值域而不检索父类的值域
+     * @param pObj
+     *            要设置值的实例,如果值域为静态,可以为null
+     * @param pValue
+     *            要设置成的值
+     * @throws IllegalStateException
+     *             反射操作发生异常,或没有符合条件的值域
+     */
+    public static void setFieldValue(Class<?> pClazz,String[] pFieldNames,boolean pDeclared,Object pObj,Object pValue){
         FieldUtil.setFieldValue(FieldUtil.getField(pClazz,pFieldNames,pDeclared),pObj,pValue);
     }
 
@@ -454,11 +545,11 @@ public class FieldUtil{
             boolean tIsFinal=Modifier.isFinal(pField.getModifiers());
             int tOriginModifer=pField.getModifiers();
             if(tIsFinal){
-                setFieldValue(Field.class,pField,"modifiers",(tOriginModifer&(~Modifier.FINAL)),true);
+                FieldUtil.setFieldValue(Field.class,"modifiers",true,pField,(tOriginModifer&(~Modifier.FINAL)));
             }
             pField.set(pObj,pValue);
             if(tIsFinal){
-                setFieldValue(Field.class,pField,"modifiers",tOriginModifer,true);
+                FieldUtil.setFieldValue(Field.class,"modifiers",true,pField,tOriginModifer);
             }
         }catch(IllegalArgumentException|IllegalAccessException exp){
             throw new IllegalStateException(REFLACT_OP_ERROR,exp);
