@@ -541,6 +541,23 @@ public class MethodUtil{
     }
 
     /**
+     * 执行静态的无参数方法,并返回结果
+     * 
+     * @param pClazz
+     *            类,用于获取方法
+     * @param pMethodName
+     *            方法名
+     * @param pDeclared
+     *            是否只检索该类定义的方法而不检索父类的值域
+     * @return 方法返回值
+     * @throws IllegalStateException
+     *             没有匹配的方法,或反射操作发生异常
+     */
+    public static Object invokeStaticMethod(Class<?> pClazz,String pMethodName,boolean pDeclared){
+        return MethodUtil.invokeMethod(pClazz,pMethodName,new Class<?>[0],pDeclared,(Object)null,new Object[0]);
+    }
+
+    /**
      * 执行无参数方法,并返回结果
      * 
      * @param pClazz
@@ -555,8 +572,31 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeMethod(Class<?> pClazz,Object pObj,String pMethodName,boolean pDeclared){
-        return MethodUtil.invokeMethod(pClazz,pObj,pMethodName,new Class<?>[0],new Object[0],pDeclared);
+    public static Object invokeMethod(Class<?> pClazz,String pMethodName,boolean pDeclared,Object pObj){
+        return MethodUtil.invokeMethod(pClazz,pMethodName,new Class<?>[0],pDeclared,pObj,new Object[0]);
+    }
+
+    /**
+     * 执行静态的单参数方法,并返回结果
+     * 
+     * @param pClazz
+     *            类,用于获取方法
+     * @param pObj
+     *            要执行方法的实例,如果方法为静态,可以为null
+     * @param pMethodName
+     *            方法名
+     * @param pParamType
+     *            参数类型
+     * @param pParam
+     *            参数
+     * @param pDeclared
+     *            是否只检索该类定义的方法而不检索父类的值域
+     * @return 方法返回值
+     * @throws IllegalStateException
+     *             没有匹配的方法,或反射操作发生异常
+     */
+    public static Object invokeStaticMethod(Class<?> pClazz,String pMethodName,Class<?> pParamType,boolean pDeclared,Object pParam){
+        return MethodUtil.invokeMethod(pClazz,pMethodName,new Class<?>[]{pParamType},pDeclared,(Object)null,new Object[]{pParam});
     }
 
     /**
@@ -578,8 +618,31 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeMethod(Class<?> pClazz,Object pObj,String pMethodName,Class<?> pParamType,Object pParam,boolean pDeclared){
-        return MethodUtil.invokeMethod(pClazz,pObj,pMethodName,new Class<?>[]{pParamType},new Object[]{pParam},pDeclared);
+    public static Object invokeMethod(Class<?> pClazz,String pMethodName,Class<?> pParamType,boolean pDeclared,Object pObj,Object pParam){
+        return MethodUtil.invokeMethod(pClazz,pMethodName,new Class<?>[]{pParamType},pDeclared,pObj,new Object[]{pParam});
+    }
+
+    /**
+     * 执行静态方法,并返回结果
+     * 
+     * @param pClazz
+     *            类,用于获取方法
+     * @param pObj
+     *            要执行方法的实例,如果方法为静态,可以为null
+     * @param pMethodName
+     *            方法名
+     * @param pParamTypes
+     *            参数类型
+     * @param pParams
+     *            参数
+     * @param pDeclared
+     *            是否只检索该类定义的方法而不检索父类的值域
+     * @return 方法返回值
+     * @throws IllegalStateException
+     *             没有匹配的方法,或反射操作发生异常
+     */
+    public static Object invokeStaticMethod(Class<?> pClazz,String pMethodName,Class<?>[] pParamTypes,boolean pDeclared,Object[] pParams){
+        return MethodUtil.invokeMethod(pClazz,pMethodName,pParamTypes,pDeclared,(Object)null,pParams);
     }
 
     /**
@@ -601,7 +664,7 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeMethod(Class<?> pClazz,Object pObj,String pMethodName,Class<?>[] pParamTypes,Object[] pParams,boolean pDeclared){
+    public static Object invokeMethod(Class<?> pClazz,String pMethodName,Class<?>[] pParamTypes,boolean pDeclared,Object pObj,Object[] pParams){
         return MethodUtil.invokeMethod(MethodUtil.getMethod(pClazz,pMethodName,pParamTypes,pDeclared),pObj,pParams);
     }
 
