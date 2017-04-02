@@ -276,9 +276,39 @@ public class MethodUtil{
      * 
      * @param pClazz
      *            类
+     * @param pMethodName
+     *            方法名
+     * @param pDeclared
+     *            是否只检索该类定义的方法而不检索父类的方法
+     * @return 符合的方法,非空
+     */
+    public static ArrayList<Method> getMethodIgnoreParam(Class<?> pClazz,String pMethodName,boolean pDeclared){
+        ArrayList<Method> tMethods=new ArrayList<>();
+        do{
+            for(Method sMethod : pClazz.getDeclaredMethods()){
+                if(sMethod.getName().equals(pMethodName)){
+                    tMethods.add(sMethod);
+                    break;
+                }
+
+            }
+        }while(!pDeclared&&(pClazz=pClazz.getSuperclass())!=null);
+
+        if(!tMethods.isEmpty()){
+            return tMethods;
+        }
+        throw new IllegalStateException(NO_SUCH_METHOD+"(方法名: "+pMethodName+")");
+    }
+
+    /**
+     * 获取方法,无视参数
+     * 
+     * @param pClazz
+     *            类
      * @param pMethodNames
      *            可能的方法名
      * @param pDeclared
+     *            是否只检索该类定义的方法而不检索父类的方法
      * @return 符合的方法,非空
      */
     public static ArrayList<Method> getMethodIgnoreParam(Class<?> pClazz,String[] pMethodNames,boolean pDeclared){
