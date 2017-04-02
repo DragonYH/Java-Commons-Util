@@ -246,6 +246,29 @@ public class MethodUtil{
         return false;
     }
 
+    /**
+     * 检查方法是否存在
+     * 
+     * @param pClazz
+     *            类
+     * @param pMethod
+     *            方法,只比较名字,返回类型,参数类型
+     * @param pDeclared
+     *            是否只检索该类定义的方法而不检索父类的值域
+     * @return 是否存在
+     */
+    public static boolean isMethodExist(Class<?> pClazz,Method pMethod,boolean pDeclared){
+        do{
+            for(Method sMethod : pClazz.getDeclaredMethods()){
+                if(pMethod.getReturnType()==sMethod.getReturnType()&&pMethod.getName().equals(sMethod.getName())&&Arrays.equals(pMethod.getParameterTypes(),sMethod.getParameterTypes())){
+                    return true;
+                }
+            }
+        }while(!pDeclared&&(pClazz=pClazz.getSuperclass())!=null);
+
+        return false;
+    }
+
     // --------====| 获取方法 |====--------
 
     /**
