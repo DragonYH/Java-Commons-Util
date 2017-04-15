@@ -1,86 +1,28 @@
 package cc.commons.util;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.Reader;
 import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 
 public class IOUtil{
 
     /**
      * 关闭一个流
      * 
-     * @param pIPSteam
+     * @param pSteam
      *            流
      * @return 是否无报错的关闭了
      */
-    public static boolean closeStream(InputStream pIPSteam){
-        if(pIPSteam==null)
+    public static boolean closeStream(Closeable pSteam){
+        if(pSteam==null)
             return true;
 
         try{
-            pIPSteam.close();
-        }catch(IOException exp){
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * 关闭一个流
-     * 
-     * @param pOPSteam
-     *            流
-     * @return 是否无报错的关闭了
-     */
-    public static boolean closeStream(OutputStream pOPSteam){
-        if(pOPSteam==null)
-            return true;
-
-        try{
-            pOPSteam.close();
-        }catch(IOException exp){
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * 关闭一个流
-     * 
-     * @param pReader
-     *            流
-     * @return 是否无报错的关闭了
-     */
-    public static boolean closeStream(Reader pReader){
-        if(pReader==null)
-            return true;
-
-        try{
-            pReader.close();
-        }catch(IOException exp){
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * 关闭一个流
-     * 
-     * @param pWriter
-     *            流
-     * @return 是否无报错的关闭了
-     */
-    public static boolean closeStream(Writer pWriter){
-        if(pWriter==null)
-            return true;
-
-        try{
-            pWriter.close();
+            pSteam.close();
         }catch(IOException exp){
             return false;
         }
