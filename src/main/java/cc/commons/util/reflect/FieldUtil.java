@@ -54,6 +54,30 @@ public class FieldUtil{
      * 
      * @param pClazz
      *            类
+     * @param pFieldName
+     *            值域名字
+     * @param pDeclared
+     *            是否只检索该类定义的值域而不检索父类的值域
+     * @return 是否存在
+     */
+    public static boolean isFieldExist(Class<?> pClazz,String pFieldName,boolean pDeclared){
+        do{
+            for(Field sField : pClazz.getDeclaredFields()){
+                if(sField.getName().equals(pFieldName)){
+                    return true;
+                }
+
+            }
+        }while(!pDeclared&&(pClazz=pClazz.getSuperclass())!=null);
+
+        return false;
+    }
+
+    /**
+     * 检查值域是否存在
+     * 
+     * @param pClazz
+     *            类
      * @param pFieldNames
      *            可能的值域名字
      * @param pDeclared
