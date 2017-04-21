@@ -312,4 +312,47 @@ public class StringUtil{
         return newList;
     }
 
+    /**
+     * 从中间缩短字符串到指定长度
+     * 
+     * @param pContent
+     *            字符串
+     * @param pMiddle
+     *            省略内容替代符
+     * @param pLength
+     *            字符串最长长度
+     * @return 缩短后的字符串
+     */
+    public static String abbreviateMiddle(String pContent,String pMiddle,int pLength){
+        ValidData.valid(pLength>4,"Length too short");
+
+        if(pContent.length()<=pLength){
+            return pContent;
+        }
+
+        int tNewContentLen=pLength-3;
+        return pContent.substring(0,(tNewContentLen+1)/2)+pMiddle+pContent.substring(pContent.length()-tNewContentLen/2);
+    }
+
+    /**
+     * 从尾部缩短字符串到指定长度
+     * 
+     * @param pContent
+     *            字符串
+     * @param pTail
+     *            省略内容替代符
+     * @param pLength
+     *            字符串最长长度
+     * @return 缩短后的字符串
+     */
+    public static String abbreviateTail(String pContent,String pTail,int pLength){
+        ValidData.valid(pLength>4,"Length too short");
+
+        if(pContent.length()<=pLength){
+            return pContent;
+        }
+
+        return pContent.substring(0,pLength-3)+pTail;
+    }
+
 }
