@@ -288,7 +288,6 @@ public class MethodUtil{
             for(Method sMethod : pClazz.getDeclaredMethods()){
                 if(sMethod.getName().equals(pMethodName)){
                     tMethods.add(sMethod);
-                    break;
                 }
 
             }
@@ -318,7 +317,6 @@ public class MethodUtil{
                 for(String sName : pMethodNames){
                     if(sMethod.getName().equals(sName)){
                         tMethods.add(sMethod);
-                        break;
                     }
                 }
             }
