@@ -21,7 +21,7 @@ public class FieldUtil{
     public List<Field> getAllField(Class<?> pClazz){
         List<Field> tFields=new ArrayList<>();
         while(pClazz!=null){
-            for(Field sField : tFields){
+            for(Field sField : pClazz.getDeclaredFields()){
                 tFields.add(sField);
             }
             pClazz=pClazz.getSuperclass();
