@@ -30,6 +30,25 @@ public class IOUtil{
     }
 
     /**
+     * 关闭一个连接
+     * 
+     * @param pConn
+     *            连接
+     * @return 连接是否无报错的关闭了
+     */
+    public static boolean closeStream(AutoCloseable pConn){
+        if(pConn==null)
+            return true;
+
+        try{
+            pConn.close();
+        }catch(Exception exp){
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * 复制流中的数据
      * <p>
      * 数据复制完毕后,函数不会主动关闭输入输出流
