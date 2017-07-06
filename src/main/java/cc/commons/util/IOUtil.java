@@ -13,39 +13,45 @@ public class IOUtil{
     /**
      * 关闭一个流
      * 
-     * @param pSteam
+     * @param pSteams
      *            流
      * @return 是否无报错的关闭了
      */
-    public static boolean closeStream(Closeable pSteam){
-        if(pSteam==null)
-            return true;
-
-        try{
-            pSteam.close();
-        }catch(IOException exp){
-            return false;
+    public static boolean closeStream(Closeable...pSteams){
+        boolean pHasError=false;
+        for(Closeable sCloseable : pSteams){
+            if(sCloseable!=null){
+                try{
+                    sCloseable.close();
+                }catch(Exception exp){
+                    pHasError=true;
+                }
+            }
         }
-        return true;
+
+        return !pHasError;
     }
 
     /**
      * 关闭一个连接
      * 
-     * @param pConn
+     * @param pConns
      *            连接
      * @return 连接是否无报错的关闭了
      */
-    public static boolean closeStream(AutoCloseable pConn){
-        if(pConn==null)
-            return true;
-
-        try{
-            pConn.close();
-        }catch(Exception exp){
-            return false;
+    public static boolean closeStream(AutoCloseable...pConns){
+        boolean pHasError=false;
+        for(AutoCloseable sCloseable : pConns){
+            if(sCloseable!=null){
+                try{
+                    sCloseable.close();
+                }catch(Exception exp){
+                    pHasError=true;
+                }
+            }
         }
-        return true;
+
+        return !pHasError;
     }
 
     /**
