@@ -183,7 +183,7 @@ public class FileUtil{
     public static void writeData(File pFile,byte[] pData) throws IOException{
         FileUtil.writeData(pFile,pData,0,pData.length);
     }
-    
+
     /**
      * 将文件内容全部读取出来
      * 
@@ -243,7 +243,7 @@ public class FileUtil{
             IOUtil.closeStream(tOPStream);
         }
         if(pCopyFileInfo){
-            pDestFile.setLastModified(pSourceFile.lastModified());
+            pDestFile.setLastModified(Math.max(0,pSourceFile.lastModified()));
         }
     }
 
