@@ -239,8 +239,7 @@ public class FileUtil{
             tOPStream=FileUtil.openOutputStream(pDestFile,false);
             IOUtil.copy(tIPStream,tOPStream);
         }finally{
-            IOUtil.closeStream(tIPStream);
-            IOUtil.closeStream(tOPStream);
+            IOUtil.closeStream(tIPStream,tOPStream);
         }
         if(pCopyFileInfo){
             pDestFile.setLastModified(Math.max(0,pSourceFile.lastModified()));
