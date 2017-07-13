@@ -1,7 +1,20 @@
 package cc.commons.util.reflect;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.JarURLConnection;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+
+import cc.commons.util.StringUtil;
+import cc.commons.util.interfaces.IFilter;
 
 public class ClassUtil{
 
@@ -174,6 +187,148 @@ public class ClassUtil{
      */
     public static Object newInstance(String pClazz,Class<?>[] pParamTypes,Object[] pParams){
         return ClassUtil.newInstance(ClassUtil.getClass(pClazz),pParamTypes,pParams);
+    }
+
+    /**
+     * 获取包下的所有类
+     * 
+     * @param pPackage
+     *            包名,会替换路径中的点为反斜杠
+     * @param pRecursive
+     *            是否递归获取
+     * @return 包下所有的类
+     * @throws IOException
+     *             读写文件时发生异常
+     */
+    public static List<Class<?>> getPackageClasses(String pPackage,boolean pRecursive) throws IOException{
+        return ClassUtil.getPackageClasses(pPackage,pRecursive,(IFilter<Class<?>>)null);
+    }
+
+    /**
+     * 获取包下的所有类
+     * 
+     * @param pPackage
+     *            包名,会替换路径中的点为反斜杠
+     * @param pRecursive
+     *            是否递归获取
+     * @param pClassFilter
+     *            类过滤器,可以为null
+     * @return 包下所有的类
+     * @throws IOException
+     *             读写文件时发生异常
+     */
+    public static List<Class<?>> getPackageClasses(String pPackage,boolean pRecursive,IFilter<Class<?>> pClassFilter) throws IOException{
+        ArrayList<Class<?>> tClasses=new ArrayList<>();
+        String tPackageDir=pPackage.replace('.','/');
+        String tFixPackageDir=tPackageDir.endsWith("/")?tPackageDir:tPackageDir+'/';
+        pPackage=pPackage.replace('/','.');
+        String tFixPackageName=StringUtil.isEmpty(pPackage)?"":pPackage.endsWith(".")?pPackage:pPackage+'.';
+        Enumeration<URL> tURLs=Thread.currentThread().getContextClassLoader().getResources(tPackageDir);
+        if(!tURLs.hasMoreElements()) tURLs=ClassUtil.class.getClassLoader().getResources(tPackageDir);
+
+        while(tURLs.hasMoreElements()){
+            URL tURL=tURLs.nextElement();
+            String tProtocol=tURL.getProtocol();
+
+            if("file".equalsIgnoreCase(tProtocol)){
+                String tFilePath=URLDecoder.decode(tURL.getFile(),"UTF-8");
+                tClasses.addAll(ClassUtil.getDirClasses(pPackage,tFilePath,pRecursive));
+            }else if("jar".equalsIgnoreCase(tProtocol)){
+                JarFile tJarFile=((JarURLConnection)tURL.openConnection()).getJarFile();
+                Enumeration<JarEntry> tEntries=tJarFile.entries();
+                while(tEntries.hasMoreElements()){
+                    JarEntry tEntry=tEntries.nextElement();
+                    String tName=tEntry.getName();
+
+                    if(!tName.toLowerCase().endsWith(".class")) continue;
+                    tName=tName.charAt(0)=='/'?tName.substring(1):tName;
+                    if(!tName.startsWith(tFixPackageDir)) continue;
+
+                    String tSubName=tName.substring(tFixPackageDir.length(),tName.length()-6);
+                    int tLastPackagesIndex=tSubName.indexOf('/');
+                    String tClassName=null;
+                    if(tLastPackagesIndex!=-1){
+                        if(pRecursive){
+                            tClassName=tFixPackageName+(tSubName.replace('/','.'));
+                        }
+                    }else{
+                        tClassName=tFixPackageName+tSubName;
+                    }
+
+                    if(tClassName!=null){
+                        try{
+                            Class<?> tClazz=Class.forName(tClassName);
+                            if(pClassFilter==null||pClassFilter.accept(tClazz)){
+                                tClasses.add(tClazz);
+                            }
+                        }catch(ClassNotFoundException|LinkageError exp){
+                            exp.printStackTrace();
+                        }
+                    }
+
+                }
+            }
+        }
+        return tClasses;
+    }
+
+    /**
+     * 获取路径下的所有类
+     * 
+     * @param pPackage
+     *            类的包名
+     * @param pFilePath
+     *            路径
+     * @param pRecursive
+     *            是否递归
+     * @return 获取的类
+     */
+    public static List<Class<?>> getDirClasses(String pPackage,String pFilePath,boolean pRecursive){
+        return ClassUtil.getDirClasses(pPackage,pFilePath,pRecursive,(IFilter<Class<?>>)null);
+    }
+
+    /**
+     * 获取路径下的所有类
+     * 
+     * @param pPackage
+     *            类的包名
+     * @param pFilePath
+     *            路径
+     * @param pRecursive
+     *            是否递归
+     * @param pClassFilter
+     *            类过滤器
+     * @return 获取的类
+     */
+    public static List<Class<?>> getDirClasses(String pPackage,String pFilePath,boolean pRecursive,IFilter<Class<?>> pClassFilter){
+        ArrayList<Class<?>> tClasses=new ArrayList<>();
+        File tDir=new File(pFilePath);
+
+        if(!tDir.isDirectory()) return tClasses;
+        File[] tSubFiles=tDir.listFiles();
+        if(tSubFiles==null||tSubFiles.length==0) return tClasses;
+        pPackage=pPackage.replace('/','.');
+        String tFixPackageName=StringUtil.isEmpty(pPackage)?"":pPackage.endsWith(".")?pPackage:pPackage+'.';
+
+        for(File sSubFile : tSubFiles){
+            if(sSubFile.isDirectory()){
+                if(pRecursive){
+                    tClasses.addAll(ClassUtil.getDirClasses(tFixPackageName+sSubFile.getName(),sSubFile.getAbsolutePath(),pRecursive,pClassFilter));
+                }
+            }else{
+                String tClassName=sSubFile.getName().substring(0,sSubFile.getName().length()-6);
+                try{
+                    Class<?> tClazz=Class.forName(tFixPackageName+tClassName);
+                    if(pClassFilter==null||pClassFilter.accept(tClazz)){
+                        tClasses.add(tClazz);
+                    }
+                }catch(ClassNotFoundException|LinkageError exp){
+                    exp.printStackTrace();
+                }
+            }
+        }
+
+        return tClasses;
     }
 
 }
