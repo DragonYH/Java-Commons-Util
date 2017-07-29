@@ -257,11 +257,12 @@ public class ClassUtil{
 
                     if(tClassName!=null){
                         try{
-                            Class<?> tClazz=Class.forName(tClassName);
+                            Class<?> tClazz=Class.forName(tClassName,false,ClassUtil.class.getClassLoader());
                             if(pClassFilter==null||pClassFilter.accept(tClazz)){
                                 tClasses.add(tClazz);
                             }
-                        }catch(ClassNotFoundException|LinkageError exp){
+                        }catch(ClassNotFoundException|NoClassDefFoundError ignore){
+                        }catch(LinkageError exp){
                             exp.printStackTrace();
                         }
                     }
@@ -318,11 +319,12 @@ public class ClassUtil{
             }else{
                 String tClassName=sSubFile.getName().substring(0,sSubFile.getName().length()-6);
                 try{
-                    Class<?> tClazz=Class.forName(tFixPackageName+tClassName);
+                    Class<?> tClazz=Class.forName(tFixPackageName+tClassName,false,ClassUtil.class.getClassLoader());
                     if(pClassFilter==null||pClassFilter.accept(tClazz)){
                         tClasses.add(tClazz);
                     }
-                }catch(ClassNotFoundException|LinkageError exp){
+                }catch(ClassNotFoundException|NoClassDefFoundError ignore){
+                }catch(LinkageError exp){
                     exp.printStackTrace();
                 }
             }
