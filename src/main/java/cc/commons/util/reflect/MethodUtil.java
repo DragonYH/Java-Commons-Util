@@ -15,6 +15,7 @@ public class MethodUtil{
 
     private static final String REFLACT_OP_ERROR="反射操作异常";
     private static final String NO_SUCH_METHOD="未找到该类型的方法";
+    private static final String LINE_BREAK=System.getProperty("line.separator","\n");
 
     private static void checkMethodA(String[] pMethodNames){
         if(pMethodNames==null||pMethodNames.length==0)
@@ -296,7 +297,10 @@ public class MethodUtil{
         if(!tMethods.isEmpty()){
             return tMethods;
         }
-        throw new IllegalStateException(NO_SUCH_METHOD+"(方法名: "+pMethodName+")");
+
+        throw new IllegalStateException(NO_SUCH_METHOD+LINE_BREAK
+                +"\t类: "+pClazz.getName()+LINE_BREAK
+                +"\t方法名: "+pMethodName,new NoSuchMethodException());
     }
 
     /**
@@ -325,7 +329,10 @@ public class MethodUtil{
         if(!tMethods.isEmpty()){
             return tMethods;
         }
-        throw new IllegalStateException(NO_SUCH_METHOD+"(可能的方法名: "+Arrays.toString(pMethodNames)+")");
+
+        throw new IllegalStateException(NO_SUCH_METHOD+LINE_BREAK
+                +"\t类: "+pClazz.getName()+LINE_BREAK
+                +"\t可能的方法名: "+Arrays.toString(pMethodNames),new NoSuchMethodException());
     }
 
     /**
@@ -355,7 +362,6 @@ public class MethodUtil{
      * @param pParamType
      *            参数类型
      * @param pDeclared
-     * 
      * @return 方法
      * @throws IllegalStateException
      *             没有匹配的方法
@@ -388,7 +394,10 @@ public class MethodUtil{
             }
         }while(!pDeclared&&(pClazz=pClazz.getSuperclass())!=null);
 
-        throw new IllegalStateException(NO_SUCH_METHOD+"(方法名字: "+pMethodName+",参数类型: "+Arrays.toString(pParamsTypes)+")");
+        throw new IllegalStateException(NO_SUCH_METHOD+LINE_BREAK
+                +"\t类: "+pClazz.getName()+LINE_BREAK
+                +"\t方法名: "+pMethodName+LINE_BREAK
+                +"\t方法参数: "+Arrays.toString(pParamsTypes),new NoSuchMethodException());
     }
 
     /**
@@ -436,7 +445,7 @@ public class MethodUtil{
      *            类
      * @param pMethodNames
      *            可能的方法名
-     * @param pParamTypes
+     * @param pParamsTypes
      *            参数类型
      * @param pDeclared
      *            是否只检索该类定义的方法而不检索父类的方法
@@ -444,19 +453,22 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法
      */
-    public static Method getMethod(Class<?> pClazz,String[] pMethodNames,Class<?>[] pParamTypes,boolean pDeclared){
+    public static Method getMethod(Class<?> pClazz,String[] pMethodNames,Class<?>[] pParamsTypes,boolean pDeclared){
         MethodUtil.checkMethodA(pMethodNames);
 
         do{
             for(Method sMethod : pClazz.getDeclaredMethods()){
                 for(String sMethodName : pMethodNames){
-                    if(sMethod.getName().equals(sMethodName)&&Arrays.equals(sMethod.getParameterTypes(),pParamTypes))
+                    if(sMethod.getName().equals(sMethodName)&&Arrays.equals(sMethod.getParameterTypes(),pParamsTypes))
                         return sMethod;
                 }
             }
         }while(!pDeclared&&(pClazz=pClazz.getSuperclass())!=null);
 
-        throw new IllegalStateException(NO_SUCH_METHOD+"(可能的方法名: "+Arrays.toString(pMethodNames)+",参数类型: "+Arrays.toString(pParamTypes)+")");
+        throw new IllegalStateException(NO_SUCH_METHOD+LINE_BREAK
+                +"\t类: "+pClazz.getName()+LINE_BREAK
+                +"\t可能的方法名: "+Arrays.toString(pMethodNames)+LINE_BREAK
+                +"\t方法参数: "+Arrays.toString(pParamsTypes),new NoSuchMethodException());
 
     }
 
@@ -486,7 +498,10 @@ public class MethodUtil{
         if(!tFoundMethods.isEmpty()){
             return tFoundMethods;
         }
-        throw new IllegalStateException(NO_SUCH_METHOD+"(方法过滤器类型: "+pFilter.getClass().getName()+")");
+
+        throw new IllegalStateException(NO_SUCH_METHOD+LINE_BREAK
+                +"\t类: "+pClazz.getName()+LINE_BREAK
+                +"\t方法过滤器类型: "+pFilter.getClass().getName(),new NoSuchMethodException());
     }
 
     /**
@@ -553,7 +568,11 @@ public class MethodUtil{
         if(!tFoundMethods.isEmpty()){
             return tFoundMethods;
         }
-        throw new IllegalStateException(NO_SUCH_METHOD+"(返回类型: "+pReturnType.getName()+",参数类型: "+Arrays.toString(pParamTypes)+")");
+
+        throw new IllegalStateException(NO_SUCH_METHOD+LINE_BREAK
+                +"\t类: "+pClazz.getName()+LINE_BREAK
+                +"\t返回类型: "+pReturnType.getName()+LINE_BREAK
+                +"\t参数类型: "+Arrays.toString(pParamTypes),new NoSuchMethodException());
     }
 
     // --------====| 执行方法 |====--------

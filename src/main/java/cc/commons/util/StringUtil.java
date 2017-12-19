@@ -2,6 +2,7 @@ package cc.commons.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.TreeSet;
 
 public class StringUtil{
@@ -353,6 +354,27 @@ public class StringUtil{
         }
 
         return pContent.substring(0,pLength-3)+pTail;
+    }
+
+    /**
+     * 集合转换成String
+     * 
+     * @param pCol
+     *            集合
+     * @param pSeparator
+     *            每个元素之间的分隔字符串
+     * @return 字符串
+     */
+    public static <T> String toString(Collection<T> pCol,String pSeparator){
+        if(pCol.isEmpty()) return "";
+
+        Iterator<T> tIt=pCol.iterator();
+        StringBuilder tSBuilde=new StringBuilder(tIt.next().toString());
+        while(tIt.hasNext()){
+            tSBuilde.append(pSeparator).append(tIt.next().toString());
+        }
+
+        return tSBuilde.toString();
     }
 
 }

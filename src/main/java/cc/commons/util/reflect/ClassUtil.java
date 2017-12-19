@@ -4,12 +4,15 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -20,23 +23,80 @@ public class ClassUtil{
 
     private static final String REFLACT_OP_ERROR="反射操作异常";
 
+    private static LinkedHashMap<Integer,String> mModifers=new LinkedHashMap<>();
+
+    static{
+        mModifers.put(Modifier.PUBLIC,"PUBLIC");
+        mModifers.put(Modifier.PRIVATE,"PRIVATE");
+        mModifers.put(Modifier.PROTECTED,"PROTECTED");
+        mModifers.put(Modifier.STATIC,"STATIC");
+        mModifers.put(Modifier.FINAL,"FINAL");
+        mModifers.put(Modifier.SYNCHRONIZED,"SYNCHRONIZED");
+        mModifers.put(Modifier.VOLATILE,"VOLATILE");
+        mModifers.put(Modifier.TRANSIENT,"TRANSIENT");
+        mModifers.put(Modifier.NATIVE,"NATIVE");
+        mModifers.put(Modifier.INTERFACE,"INTERFACE");
+        mModifers.put(Modifier.ABSTRACT,"ABSTRACT");
+        mModifers.put(Modifier.STRICT,"STRICT");
+        mModifers.put(0x00000040,"BRIDGE");
+        mModifers.put(0x00000080,"VARARGS");
+        mModifers.put(0x00001000,"SYNTHETIC");
+        mModifers.put(0x00002000,"ANNOTATION");
+        mModifers.put(0x00004000,"ENUM");
+    }
+
     /**
-     * 后者指定的访问修饰符值域是否存在在前者中或者相同
+     * 后者指定的访问限定符值域是否存在在前者中或者相同
      * <p>
      * pWhich<=0,表示总是存在
      * </p>
      * 
      * @param pCol
-     *            值域修饰符集合
+     *            访问限定符集合
      * @param pWhich
-     *            需要存在的值域修饰符集合
+     *            需要存在的访问限定符集合
      * @return 是否存在
-     * @see java.lang.reflect.Modifie
+     * @see java.lang.reflect.Modifier
      */
     public static boolean includedModifier(int pCol,int pWhich){
+
         if(pWhich<=0||pCol==pWhich)
             return true;
         return (pCol&pWhich)!=0;
+    }
+
+    /**
+     * 访问限定符由数字映射到字符串
+     * <p>
+     * pWhich<=0,表示总是存在
+     * </p>
+     * 
+     * @param pModifers
+     *            访问限定符数值
+     * @return 包含的访问限定符
+     */
+    public static ArrayList<String> getModiferName(int pModifers){
+        ArrayList<String> tStrs=new ArrayList<>();
+        for(Map.Entry<Integer,String> sEntry : ClassUtil.mModifers.entrySet()){
+            if((sEntry.getKey().intValue()&pModifers)!=0){
+                tStrs.add(sEntry.getValue());
+            }
+        }
+        return tStrs;
+    }
+
+    /**
+     * 访问限定符由数字映射到字符串,并使用逗号连接每个访问限定符
+     * <p>
+     * pWhich<=0,表示总是存在
+     * </p>
+     * 
+     * @param pModifers
+     *            访问限定符数值
+     * @return 包含的访问限定符
+     */
+    public static String getModiferNameStr(int pModifers){
+        return StringUtil.toString(ClassUtil.getModiferName(pModifers)," ,");
     }
 
     /**

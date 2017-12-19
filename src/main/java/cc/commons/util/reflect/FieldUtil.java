@@ -12,6 +12,7 @@ public class FieldUtil{
 
     private static final String REFLACT_OP_ERROR="反射操作异常";
     private static final String NO_SUCH_FIELD="未找到该类型的值域";
+    private static final String LINE_BREAK=System.getProperty("line.separator","\n");
 
     private static void fieldNotEmpty(String[] pFieldNames){
         if(pFieldNames==null||pFieldNames.length==0)
@@ -145,7 +146,9 @@ public class FieldUtil{
             }
         }while(!pDeclared&&(pClazz=pClazz.getSuperclass())!=null);
 
-        throw new IllegalStateException(NO_SUCH_FIELD+"(值域名字: "+pFieldName+")");
+        throw new IllegalStateException(NO_SUCH_FIELD+LINE_BREAK
+                +"\t类: "+pClazz.getName()+LINE_BREAK
+                +"\t值域: "+pFieldName,new NoSuchFieldException());
     }
 
     /**
@@ -174,7 +177,9 @@ public class FieldUtil{
             }
         }while(!pDeclared&&(pClazz=pClazz.getSuperclass())!=null);
 
-        throw new IllegalStateException(NO_SUCH_FIELD+"(可能的值域名字: "+Arrays.toString(pFieldNames)+")");
+        throw new IllegalStateException(NO_SUCH_FIELD+LINE_BREAK
+                +"\t类: "+pClazz.getName()+LINE_BREAK
+                +"\t检索的值域: "+Arrays.toString(pFieldNames),new NoSuchFieldException());
     }
 
     /**
@@ -185,7 +190,7 @@ public class FieldUtil{
      * @param pFieldTypeShortName
      *            值域类型短名字
      * @param pModifier
-     *            值域包含的修饰符,如果不限制则设置<=0
+     *            值域包含的限定符,如果不限制则设置<=0
      * @param pDeclared
      *            是否只检索该类定义的值域而不检索父类的值域
      * @return 符合的值域,非空
@@ -207,7 +212,10 @@ public class FieldUtil{
         if(!tFoundFields.isEmpty()){
             return tFoundFields;
         }
-        throw new IllegalStateException(NO_SUCH_FIELD+"(类型短名字: "+pFieldTypeShortName+" ,访问限制符包含的值: "+pModifier+")");
+        throw new IllegalStateException(NO_SUCH_FIELD+LINE_BREAK
+                +"\t类: "+pClazz.getName()+LINE_BREAK
+                +"\t值域类型短名字: "+pFieldTypeShortName+LINE_BREAK
+                +"\t值域包含的访问限定符: "+ClassUtil.getModiferNameStr(pModifier),new NoSuchFieldException());
     }
 
     /**
@@ -218,7 +226,7 @@ public class FieldUtil{
      * @param pFieldClazz
      *            值域类型
      * @param pModifier
-     *            值域包含的值域修饰符,如果不限制则设置<=0
+     *            值域包含的值域限定符,如果不限制则设置<=0
      * @param pDeclared
      *            是否只检索该类定义的值域而不检索父类的值域
      * @return 符合的值域,非空
@@ -240,7 +248,10 @@ public class FieldUtil{
         if(!tFoundFields.isEmpty()){
             return tFoundFields;
         }
-        throw new IllegalStateException(NO_SUCH_FIELD+"(值域类型: "+pFieldClazz+" ,访问限制符包含的值: "+pModifier+")");
+        throw new IllegalStateException(NO_SUCH_FIELD+LINE_BREAK
+                +"\t类: "+pClazz.getName()+LINE_BREAK
+                +"\t值域类型: "+pFieldClazz.getName()+LINE_BREAK
+                +"\t值域包含的访问限定符: "+ClassUtil.getModiferNameStr(pModifier),new NoSuchFieldException());
     }
 
     /**
@@ -270,7 +281,9 @@ public class FieldUtil{
         if(!tFoundFields.isEmpty()){
             return tFoundFields;
         }
-        throw new IllegalStateException(NO_SUCH_FIELD+"(值域过滤器类类型:  "+pFilter.getClass().getName()+")");
+        throw new IllegalStateException(NO_SUCH_FIELD+LINE_BREAK
+                +"\t类: "+pClazz.getName()+LINE_BREAK
+                +"\t值域过滤器类: "+pFilter.getClass().getName(),new NoSuchFieldException());
     }
 
     // --------====| 获取值域值的方法 |====--------
@@ -349,7 +362,6 @@ public class FieldUtil{
      * 
      * @param pClazz
      *            类,用于获取值域
-     * 
      * @param pFieldNames
      *            可能的值域名
      * @param pDeclared
@@ -367,7 +379,6 @@ public class FieldUtil{
      * 
      * @param pClazz
      *            类,用于获取值域
-     * 
      * @param pFieldNames
      *            可能的值域名
      * @param pDeclared
@@ -464,7 +475,6 @@ public class FieldUtil{
      * 
      * @param pClazz
      *            类,用于获取值域
-     * 
      * @param pFieldName
      *            值域名
      * @param pDeclared
@@ -483,7 +493,6 @@ public class FieldUtil{
      * 
      * @param pClazz
      *            类,用于获取值域
-     * 
      * @param pFieldName
      *            值域名
      * @param pDeclared
