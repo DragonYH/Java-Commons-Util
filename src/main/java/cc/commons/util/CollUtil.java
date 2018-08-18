@@ -124,4 +124,37 @@ public class CollUtil{
     public static <T> ArrayList<T> asList(T[] pArrays){
         return CollUtil.asCollection(pArrays,ArrayList.class);
     }
+
+    /**
+     * 将数组元素添加到集合中
+     * 
+     * @param pCol
+     *            集合
+     * @param pEles
+     *            数组元素
+     * @return 添加了元素后的集合
+     */
+    public static <T,E extends Collection<T>> E addEles(E pCol,T[] pEles){
+        for(int i=pEles.length-1;i>=0;i--){
+            if(pEles[i]==null) continue;
+            pCol.add(pEles[i]);
+        }
+        return pCol;
+    }
+
+    /**
+     * 将数组元素从集合中移除
+     * 
+     * @param pCol
+     *            集合
+     * @param pEles
+     *            数组元素
+     * @return 移除了元素后的集合
+     */
+    public static <T,E extends Collection<T>> E removeEles(E pCol,T[] pEles){
+        for(int i=pEles.length-1;i>=0;i--){
+            pCol.remove(pEles[i]);
+        }
+        return pCol;
+    }
 }
