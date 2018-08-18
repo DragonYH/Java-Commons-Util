@@ -28,6 +28,10 @@ public class CacheGettor<T>{
             this.mCacheValue=null;
         }
     }
+    
+    public boolean cached(){
+        return this.mCached;
+    }
 
     /**
      * 获取数据
