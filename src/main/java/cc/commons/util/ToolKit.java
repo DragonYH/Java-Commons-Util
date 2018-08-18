@@ -123,4 +123,24 @@ public class ToolKit{
             }
         }
     }
+
+    /**
+     * 版本大小比较
+     * 
+     * @param pV1
+     * @param pV2
+     * @return
+     */
+    public static int compareVersion(String pV1,String pV2){
+        String[] pVs1=pV1.split("\\.");
+        String[] pVs2=pV2.split("\\.");
+        for(int i=0;i<pVs1.length;i++){
+            if(pVs2.length<=i) return 0;
+            int t=pVs1[i].length()-pVs2[i].length();
+            if(t!=0) return t;
+            t=pVs1[i].compareTo(pVs2[i]);
+            if(t!=0) return t;
+        }
+        return pVs1.length-pVs2.length;
+    }
 }
