@@ -2,6 +2,7 @@ package cc.commons.util.reflect;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.invoke.MethodHandles.Lookup;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
@@ -24,6 +25,12 @@ public class ClassUtil{
     private static final String REFLACT_OP_ERROR="反射操作异常";
 
     private static LinkedHashMap<Integer,String> mModifers=new LinkedHashMap<>();
+
+    public static final int M_BRIDGE=0x00000040;
+    public static final int M_VARARGS=0x00000080;
+    public static final int M_SYNTHETIC=0x00001000;
+    public static final int M_ANNOTATION=0x00002000;
+    public static final int M_ENUM=0x00004000;
 
     static{
         mModifers.put(Modifier.PUBLIC,"PUBLIC");
@@ -391,6 +398,16 @@ public class ClassUtil{
         }
 
         return tClasses;
+    }
+
+    /**
+     * 创建一个Lookup
+     * 
+     * @param pTarget
+     * @return
+     */
+    public static Lookup newLookup(Class<?> pTarget){
+        return ClassUtil.newInstance(Lookup.class,Class.class,pTarget);
     }
 
 }
