@@ -52,7 +52,7 @@ public abstract class BaseFilter<T,E extends BaseFilter<T,E>> implements IFilter
 
     protected int addModifer(int pTarget,int...pModifers){
         for(int sModifer : pModifers){
-            pTarget&=sModifer;
+            pTarget|=sModifer;
         }
         return pTarget;
     }
