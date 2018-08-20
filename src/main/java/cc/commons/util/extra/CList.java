@@ -25,8 +25,26 @@ public class CList<E>extends ArrayList<E>{
         return this.get(this.size()-1);
     }
 
+    /**
+     * 判断集合中是否只有一个元素
+     * 
+     * @return
+     */
     public boolean onlyOne(){
         return this.size()==1;
+    }
+
+    /**
+     * 在集合只有一个元素的时候,调用此函数获取该元素
+     * <p>
+     * 如果集合元素数量不为1,会抛出异常
+     * </p>
+     * 
+     * @return 集合中的唯一元素
+     */
+    public E oneGet(){
+        if(this.size()!=1) throw new IllegalStateException("Not Only One Element");
+        return this.get(1);
     }
 
 }
