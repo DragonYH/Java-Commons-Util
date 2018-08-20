@@ -103,7 +103,7 @@ public abstract class BaseFilter<T,E extends BaseFilter<T,E>> implements IFilter
         if(this.mPossModifer!=0&&(this.mPossModifer&getTargetModifer(pObj))==0)
             return false;
 
-        if(this.mDenyModifer!=0&&(this.mPossModifer&getTargetModifer(pObj))!=0)
+        if(this.mDenyModifer!=0&&(this.mDenyModifer&getTargetModifer(pObj))!=0)
             return false;
 
         if(this.mSubFilter.cached()) for(IFilter<T> sFilter : this.mSubFilter.get()){
