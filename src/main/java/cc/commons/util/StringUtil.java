@@ -379,7 +379,7 @@ public class StringUtil{
 
     public static boolean existPrefix(Collection<String> pCol,String pPrefix){
         for(String sStr : pCol){
-            if(sStr!=null&&sStr.startsWith(pPrefix)) return true;
+            if(sStr!=null&&pPrefix.startsWith(sStr)) return true;
         }
         return false;
     }
