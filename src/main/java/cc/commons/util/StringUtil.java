@@ -390,6 +390,7 @@ public class StringUtil{
      * @return
      */
     public static String fixToPrintable(String pStr){
+        if(StringUtil.isEmpty(pStr)) return "";
         StringBuilder tSBuilder=new StringBuilder();
         int tSize=pStr.length();
         for(int i=0;i<tSize;i++){
