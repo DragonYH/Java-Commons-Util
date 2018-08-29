@@ -2,6 +2,7 @@ package cc.commons.util.reflect;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles.Lookup;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class LookupUtil{
@@ -19,7 +20,15 @@ public class LookupUtil{
     public static MethodHandle unreflect(Method pMethod){
         return LookupUtil.unreflect(ClassUtil.newLookup(pMethod.getDeclaringClass()),pMethod);
     }
+    
+    public static MethodHandle unreflectGetter(Field pField){
+        return LookupUtil.unreflectGetter(ClassUtil.newLookup(pField.getDeclaringClass()),pField);
+    }
 
+    public static MethodHandle unreflectSetter(Field pField){
+        return LookupUtil.unreflectSetter(ClassUtil.newLookup(pField.getDeclaringClass()),pField);
+    }
+    
     /**
      * @param pCaller
      * @param pMethod
@@ -27,6 +36,14 @@ public class LookupUtil{
      */
     public static MethodHandle unreflect(Class<?> pCaller,Method pMethod){
         return LookupUtil.unreflect(ClassUtil.newLookup(pCaller),pMethod);
+    }
+    
+    public static MethodHandle unreflectGetter(Class<?> pCaller,Field pField){
+        return LookupUtil.unreflectGetter(ClassUtil.newLookup(pCaller),pField);
+    }
+    
+    public static MethodHandle unreflectSetter(Class<?> pCaller,Field pField){
+        return LookupUtil.unreflectSetter(ClassUtil.newLookup(pCaller),pField);
     }
 
     /**
@@ -37,6 +54,22 @@ public class LookupUtil{
     public static MethodHandle unreflect(Lookup pLookup,Method pMethod){
         try{
             return pLookup.unreflect(pMethod);
+        }catch(IllegalAccessException e){
+            throw new IllegalStateException(e);
+        }
+    }
+    
+    public static MethodHandle unreflectGetter(Lookup pLookup,Field pField){
+        try{
+            return pLookup.unreflectGetter(pField);
+        }catch(IllegalAccessException e){
+            throw new IllegalStateException(e);
+        }
+    }
+    
+    public static MethodHandle unreflectSetter(Lookup pLookup,Field pField){
+        try{
+            return pLookup.unreflectSetter(pField);
         }catch(IllegalAccessException e){
             throw new IllegalStateException(e);
         }
