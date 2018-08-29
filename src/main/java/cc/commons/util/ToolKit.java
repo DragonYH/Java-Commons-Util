@@ -143,4 +143,16 @@ public class ToolKit{
         }
         return pVs1.length-pVs2.length;
     }
+
+    /**
+     * 检查字符是否为可打印字符
+     * @param pChar
+     * @return
+     */
+    public static boolean isPrintable(char pChar){
+        return (pChar>='\u0020'&&pChar<='\u007E')||pChar=='\n'||pChar=='\r'||pChar=='\t'
+                ||pChar=='\u0085'||(pChar>='\u00A0'&&pChar<='\uD7FF')
+                ||(pChar>='\uE000'&&pChar<='\uFFFD');
+
+    }
 }

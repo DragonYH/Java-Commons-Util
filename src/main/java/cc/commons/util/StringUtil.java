@@ -383,5 +383,22 @@ public class StringUtil{
         }
         return false;
     }
+    
+    /**
+     * 移除字符串中的不可打印字符
+     * @param pStr
+     * @return
+     */
+    public static String fixToPrintable(String pStr){
+        StringBuilder tSBuilder=new StringBuilder();
+        int tSize=pStr.length();
+        for(int i=0;i<tSize;i++){
+            char tChar=pStr.charAt(i);
+            if(ToolKit.isPrintable(tChar))
+                tSBuilder.append(tChar);
+        }
+        
+        return tSBuilder.toString();
+    }
 
 }
