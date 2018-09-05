@@ -291,7 +291,7 @@ public class ClassUtil{
         pPackage=pPackage.replace('/','.');
         String tFixPackageName=StringUtil.isEmpty(pPackage)?"":pPackage.endsWith(".")?pPackage:pPackage+'.';
         Enumeration<URL> tURLs=Thread.currentThread().getContextClassLoader().getResources(tPackageDir);
-        if(!tURLs.hasMoreElements()) tURLs=ClassUtil.class.getClassLoader().getResources(tPackageDir);
+        if(tURLs!=null&&!tURLs.hasMoreElements()) tURLs=ClassUtil.class.getClassLoader().getResources(tPackageDir);
 
         while(tURLs.hasMoreElements()){
             URL tURL=tURLs.nextElement();
