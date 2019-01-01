@@ -233,7 +233,7 @@ public class FieldUtil{
      *             没有符合条件的值域
      */
     public static CList<Field> getDeclaredField(Class<?> pClazz,IFilter<Field> pFilter){
-        return FieldUtil.getField(pClazz,pFilter,false);
+        return FieldUtil.getField(pClazz,pFilter,true);
     }
 
     /**
