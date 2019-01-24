@@ -192,14 +192,15 @@ public class FieldUtil{
      *             没有匹配到任何值域
      */
     public static Field getField(Class<?> pClazz,String pFieldName,boolean pDeclared){
+        Class<?> tClass=pClazz;
         do{
-            Field[] tFields=pClazz.getDeclaredFields();
+            Field[] tFields=tClass.getDeclaredFields();
             for(Field sField : tFields){
                 if(sField.getName().equals(pFieldName)){
                     return sField;
                 }
             }
-        }while(!pDeclared&&(pClazz=pClazz.getSuperclass())!=null);
+        }while(!pDeclared&&(tClass=tClass.getSuperclass())!=null);
 
         throw new IllegalStateException(NO_SUCH_FIELD+LINE_BREAK
                 +"\t类: "+pClazz.getName()+LINE_BREAK
@@ -250,15 +251,16 @@ public class FieldUtil{
      *             没有符合条件的值域
      */
     public static CList<Field> getField(Class<?> pClazz,IFilter<Field> pFilter,boolean pDeclared){
+        Class<?> tClass=pClazz;
         CList<Field> tFoundFields=new CList<>();
         do{
-            Field[] tFields=pClazz.getDeclaredFields();
+            Field[] tFields=tClass.getDeclaredFields();
             for(Field sField : tFields){
                 if(pFilter.accept(sField)){
                     tFoundFields.add(sField);
                 }
             }
-        }while(!pDeclared&&(pClazz=pClazz.getSuperclass())!=null);
+        }while(!pDeclared&&(tClass=tClass.getSuperclass())!=null);
 
         if(!tFoundFields.isEmpty()){
             return tFoundFields;

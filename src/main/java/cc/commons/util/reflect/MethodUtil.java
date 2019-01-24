@@ -249,15 +249,16 @@ public class MethodUtil{
      * @return 符合的方法,非空
      */
     public static CList<Method> getMethodIgnoreParam(Class<?> pClazz,String pMethodName,boolean pDeclared){
+        Class<?> tClazz=pClazz;
         CList<Method> tMethods=new CList<>();
         do{
-            for(Method sMethod : pClazz.getDeclaredMethods()){
+            for(Method sMethod : tClazz.getDeclaredMethods()){
                 if(sMethod.getName().equals(pMethodName)){
                     tMethods.add(sMethod);
                 }
 
             }
-        }while(!pDeclared&&(pClazz=pClazz.getSuperclass())!=null);
+        }while(!pDeclared&&(tClazz=tClazz.getSuperclass())!=null);
 
         if(!tMethods.isEmpty()){
             return tMethods;
@@ -383,13 +384,14 @@ public class MethodUtil{
      *             没有匹配的方法
      */
     public static Method getMethod(Class<?> pClazz,String pMethodName,Class<?>[] pParamsTypes,boolean pDeclared){
+        Class<?> tClazz=pClazz;
         do{
-            for(Method sMethod : pClazz.getDeclaredMethods()){
+            for(Method sMethod : tClazz.getDeclaredMethods()){
                 if(sMethod.getName().equals(pMethodName)&&Arrays.equals(sMethod.getParameterTypes(),pParamsTypes)){
                     return sMethod;
                 }
             }
-        }while(!pDeclared&&(pClazz=pClazz.getSuperclass())!=null);
+        }while(!pDeclared&&(tClazz=tClazz.getSuperclass())!=null);
 
         throw new IllegalStateException(NO_SUCH_METHOD+LINE_BREAK
                 +"\t类: "+pClazz.getName()+LINE_BREAK
@@ -437,14 +439,15 @@ public class MethodUtil{
      *             没有匹配的方法
      */
     public static CList<Method> getMethod(Class<?> pClazz,IFilter<Method> pFilter,boolean pDeclared){
+        Class<?> tClazz=pClazz;
         CList<Method> tFoundMethods=new CList<>();
         do{
-            for(Method sMethod : pClazz.getDeclaredMethods()){
+            for(Method sMethod : tClazz.getDeclaredMethods()){
                 if(pFilter.accept(sMethod)){
                     tFoundMethods.add(sMethod);
                 }
             }
-        }while(!pDeclared&&(pClazz=pClazz.getSuperclass())!=null);
+        }while(!pDeclared&&(tClazz=tClazz.getSuperclass())!=null);
 
         if(!tFoundMethods.isEmpty()){
             return tFoundMethods;
