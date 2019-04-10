@@ -223,7 +223,7 @@ public class ClassUtil{
         }
     }
 
-    public static <T> T newInstance(Constructor<T> pCons,Object[] pParams){
+    public static <T> T newInstance(Constructor<T> pCons,Object...pParams){
         try{
             pCons.setAccessible(true);
             return pCons.newInstance(pParams);
