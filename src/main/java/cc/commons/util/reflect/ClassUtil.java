@@ -223,6 +223,15 @@ public class ClassUtil{
         }
     }
 
+    public static <T> T newInstance(Constructor<T> pCons,Object[] pParams){
+        try{
+            pCons.setAccessible(true);
+            return pCons.newInstance(pParams);
+        }catch(SecurityException|InstantiationException|IllegalAccessException|IllegalArgumentException|InvocationTargetException exp){
+            throw new IllegalStateException(REFLACT_OP_ERROR,exp);
+        }
+    }
+
     /**
      * 使用无参构造函数实例化类
      * 
