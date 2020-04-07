@@ -10,7 +10,7 @@ public class LimitedIterator implements Iterator<Integer> {
     }
 
     public final int originCount;
-    protected int mCurrentIndex = 0;
+    protected int mCurrentIndex = -1;
 
     private LimitedIterator(int pCount) {
         this.originCount = pCount;
@@ -28,7 +28,7 @@ public class LimitedIterator implements Iterator<Integer> {
     }
 
     public void reset() {
-        this.mCurrentIndex = 0;
+        this.mCurrentIndex = -1;
     }
 
     public int getIndex() {
