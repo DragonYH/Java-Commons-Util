@@ -437,10 +437,10 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             反射操作发生异常,或没有符合条件的值域
      */
-    public static <T> CList<T> getFieldValue(Class<?> pClazz,IFilter<Field> pFilter,boolean pDeclared,Object pObj){
-        CList<T> tFieldValues=new CList<>();
+    public static CList getFieldValue(Class<?> pClazz,IFilter<Field> pFilter,boolean pDeclared,Object pObj){
+        CList tFieldValues=new CList<>();
         for(Field sField : FieldUtil.getField(pClazz,pFilter,pDeclared)){
-            FieldUtil.getFieldValue(sField,pObj);
+            tFieldValues.add(FieldUtil.getFieldValue(sField,pObj));
         }
         return tFieldValues;
     }
