@@ -2,7 +2,6 @@ package cc.commons.util.reflect;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.invoke.MethodHandles.Lookup;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
@@ -415,16 +414,6 @@ public class ClassUtil{
         }
 
         return tClasses;
-    }
-
-    /**
-     * 创建一个Lookup
-     * 
-     * @param pTarget
-     * @return
-     */
-    public static Lookup newLookup(Class<?> pTarget){
-        return ClassUtil.newInstance(Lookup.class,Class.class,pTarget);
     }
 
 }
