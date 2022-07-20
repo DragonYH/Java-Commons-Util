@@ -620,7 +620,10 @@ public class FieldUtil{
             boolean tIsFinal=Modifier.isFinal(pField.getModifiers());
             int tOriginModifer=pField.getModifiers();
             if(tIsFinal){
+                if(FieldUtil.isDeclaredFieldExist(Field.class, "modifiers"))
                 FieldUtil.setFieldValue(Field.class,"modifiers",true,pField,(tOriginModifer&(~Modifier.FINAL)));
+                // android
+                else FieldUtil.setFieldValue(Field.class,"accessFlags",true,pField,(tOriginModifer&(~Modifier.FINAL)));
             }
             pField.set(pObj,pValue);
             if(tIsFinal){
