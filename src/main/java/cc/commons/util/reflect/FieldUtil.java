@@ -6,24 +6,24 @@ import java.lang.reflect.Modifier;
 import cc.commons.util.extra.CList;
 import cc.commons.util.interfaces.IFilter;
 
-public class FieldUtil{
+public class FieldUtil {
 
-    private static final String REFLACT_OP_ERROR="反射操作异常";
-    private static final String NO_SUCH_FIELD="未找到该类型的值域";
-    private static final String LINE_BREAK=System.getProperty("line.separator","\n");
+    private static final String REFLACT_OP_ERROR = "反射操作异常";
+    private static final String NO_SUCH_FIELD = "未找到该类型的值域";
+    private static final String LINE_BREAK = System.getProperty("line.separator", "\n");
 
-    private static void fieldNotEmpty(String[] pFieldNames){
-        if(pFieldNames==null||pFieldNames.length==0)
+    private static void fieldNotEmpty(String[] pFieldNames) {
+        if (pFieldNames == null || pFieldNames.length == 0)
             throw new IllegalArgumentException("至少需要一个值域名");
     }
 
-    public CList<Field> getAllField(Class<?> pClazz){
-        CList<Field> tFields=new CList<>();
-        while(pClazz!=null){
-            for(Field sField : pClazz.getDeclaredFields()){
+    public CList<Field> getAllField(Class<?> pClazz) {
+        CList<Field> tFields = new CList<>();
+        while (pClazz != null) {
+            for (Field sField : pClazz.getDeclaredFields()) {
                 tFields.add(sField);
             }
-            pClazz=pClazz.getSuperclass();
+            pClazz = pClazz.getSuperclass();
         }
         return tFields;
     }
@@ -38,12 +38,12 @@ public class FieldUtil{
      * @param pDeclared
      *            是否只打印该类定义的值域而不打印父类的值域
      */
-    public static void printField(Class<?> pClazz,boolean pDeclared){
-        do{
-            for(Field sField : pClazz.getDeclaredFields()){
+    public static void printField(Class<?> pClazz, boolean pDeclared) {
+        do {
+            for (Field sField : pClazz.getDeclaredFields()) {
                 System.out.println(sField);
             }
-        }while(!pDeclared&&(pClazz=pClazz.getSuperclass())!=null);
+        } while (!pDeclared && (pClazz = pClazz.getSuperclass()) != null);
     }
 
     // --------====| 检查方法 |====--------
@@ -57,8 +57,8 @@ public class FieldUtil{
      *            值域名字
      * @return 是否存在
      */
-    public static boolean isFieldExist(Class<?> pClazz,String pFieldName){
-        return FieldUtil.isFieldExist(pClazz,pFieldName,false);
+    public static boolean isFieldExist(Class<?> pClazz, String pFieldName) {
+        return FieldUtil.isFieldExist(pClazz, pFieldName, false);
     }
 
     /**
@@ -70,8 +70,8 @@ public class FieldUtil{
      *            值域名字
      * @return 是否存在
      */
-    public static boolean isDeclaredFieldExist(Class<?> pClazz,String pFieldName){
-        return FieldUtil.isFieldExist(pClazz,pFieldName,true);
+    public static boolean isDeclaredFieldExist(Class<?> pClazz, String pFieldName) {
+        return FieldUtil.isFieldExist(pClazz, pFieldName, true);
     }
 
     /**
@@ -85,15 +85,15 @@ public class FieldUtil{
      *            是否只检索该类定义的值域而不检索父类的值域
      * @return 是否存在
      */
-    public static boolean isFieldExist(Class<?> pClazz,String pFieldName,boolean pDeclared){
-        do{
-            for(Field sField : pClazz.getDeclaredFields()){
-                if(sField.getName().equals(pFieldName)){
+    public static boolean isFieldExist(Class<?> pClazz, String pFieldName, boolean pDeclared) {
+        do {
+            for (Field sField : pClazz.getDeclaredFields()) {
+                if (sField.getName().equals(pFieldName)) {
                     return true;
                 }
 
             }
-        }while(!pDeclared&&(pClazz=pClazz.getSuperclass())!=null);
+        } while (!pDeclared && (pClazz = pClazz.getSuperclass()) != null);
 
         return false;
     }
@@ -109,13 +109,13 @@ public class FieldUtil{
      *            是否只检索该类定义的值域而不检索父类的值域
      * @return 是否存在
      */
-    public static boolean isFieldExist(Class<?> pClazz,IFilter<Field> pFilter,boolean pDeclared){
-        do{
-            for(Field sField : pClazz.getDeclaredFields()){
-                if(pFilter.accept(sField))
+    public static boolean isFieldExist(Class<?> pClazz, IFilter<Field> pFilter, boolean pDeclared) {
+        do {
+            for (Field sField : pClazz.getDeclaredFields()) {
+                if (pFilter.accept(sField))
                     return true;
             }
-        }while(!pDeclared&&(pClazz=pClazz.getSuperclass())!=null);
+        } while (!pDeclared && (pClazz = pClazz.getSuperclass()) != null);
 
         return false;
     }
@@ -129,8 +129,8 @@ public class FieldUtil{
      *            值域过滤器
      * @return 是否存在
      */
-    public static boolean isFieldExist(Class<?> pClazz,IFilter<Field> pFilter){
-        return FieldUtil.isFieldExist(pClazz,pFilter,false);
+    public static boolean isFieldExist(Class<?> pClazz, IFilter<Field> pFilter) {
+        return FieldUtil.isFieldExist(pClazz, pFilter, false);
     }
 
     /**
@@ -142,8 +142,8 @@ public class FieldUtil{
      *            值域过滤器
      * @return 是否存在
      */
-    public static boolean isDeclaredFieldExist(Class<?> pClazz,IFilter<Field> pFilter){
-        return FieldUtil.isFieldExist(pClazz,pFilter,true);
+    public static boolean isDeclaredFieldExist(Class<?> pClazz, IFilter<Field> pFilter) {
+        return FieldUtil.isFieldExist(pClazz, pFilter, true);
     }
 
     // --------====| 获取值域方法 |====--------
@@ -159,8 +159,8 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             没有匹配到任何值域
      */
-    public static Field getField(Class<?> pClazz,String pFieldName){
-        return FieldUtil.getField(pClazz,pFieldName,false);
+    public static Field getField(Class<?> pClazz, String pFieldName) {
+        return FieldUtil.getField(pClazz, pFieldName, false);
     }
 
     /**
@@ -174,8 +174,8 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             没有匹配到任何值域
      */
-    public static Field getDeclaredField(Class<?> pClazz,String pFieldName){
-        return FieldUtil.getField(pClazz,pFieldName,true);
+    public static Field getDeclaredField(Class<?> pClazz, String pFieldName) {
+        return FieldUtil.getField(pClazz, pFieldName, true);
     }
 
     /**
@@ -191,20 +191,20 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             没有匹配到任何值域
      */
-    public static Field getField(Class<?> pClazz,String pFieldName,boolean pDeclared){
-        Class<?> tClass=pClazz;
-        do{
-            Field[] tFields=tClass.getDeclaredFields();
-            for(Field sField : tFields){
-                if(sField.getName().equals(pFieldName)){
+    public static Field getField(Class<?> pClazz, String pFieldName, boolean pDeclared) {
+        Class<?> tClass = pClazz;
+        do {
+            Field[] tFields = tClass.getDeclaredFields();
+            for (Field sField : tFields) {
+                if (sField.getName().equals(pFieldName)) {
                     return sField;
                 }
             }
-        }while(!pDeclared&&(tClass=tClass.getSuperclass())!=null);
+        } while (!pDeclared && (tClass = tClass.getSuperclass()) != null);
 
-        throw new IllegalStateException(NO_SUCH_FIELD+LINE_BREAK
-                +"\t类: "+pClazz.getName()+LINE_BREAK
-                +"\t值域: "+pFieldName,new NoSuchFieldException());
+        throw new IllegalStateException(NO_SUCH_FIELD + LINE_BREAK
+                + "\t类: " + pClazz.getName() + LINE_BREAK
+                + "\t值域: " + pFieldName, new NoSuchFieldException());
     }
 
     /**
@@ -218,8 +218,8 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             没有符合条件的值域
      */
-    public static CList<Field> getField(Class<?> pClazz,IFilter<Field> pFilter){
-        return FieldUtil.getField(pClazz,pFilter,false);
+    public static CList<Field> getField(Class<?> pClazz, IFilter<Field> pFilter) {
+        return FieldUtil.getField(pClazz, pFilter, false);
     }
 
     /**
@@ -233,8 +233,8 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             没有符合条件的值域
      */
-    public static CList<Field> getDeclaredField(Class<?> pClazz,IFilter<Field> pFilter){
-        return FieldUtil.getField(pClazz,pFilter,true);
+    public static CList<Field> getDeclaredField(Class<?> pClazz, IFilter<Field> pFilter) {
+        return FieldUtil.getField(pClazz, pFilter, true);
     }
 
     /**
@@ -250,24 +250,24 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             没有符合条件的值域
      */
-    public static CList<Field> getField(Class<?> pClazz,IFilter<Field> pFilter,boolean pDeclared){
-        Class<?> tClass=pClazz;
-        CList<Field> tFoundFields=new CList<>();
-        do{
-            Field[] tFields=tClass.getDeclaredFields();
-            for(Field sField : tFields){
-                if(pFilter.accept(sField)){
+    public static CList<Field> getField(Class<?> pClazz, IFilter<Field> pFilter, boolean pDeclared) {
+        Class<?> tClass = pClazz;
+        CList<Field> tFoundFields = new CList<>();
+        do {
+            Field[] tFields = tClass.getDeclaredFields();
+            for (Field sField : tFields) {
+                if (pFilter.accept(sField)) {
                     tFoundFields.add(sField);
                 }
             }
-        }while(!pDeclared&&(tClass=tClass.getSuperclass())!=null);
+        } while (!pDeclared && (tClass = tClass.getSuperclass()) != null);
 
-        if(!tFoundFields.isEmpty()){
+        if (!tFoundFields.isEmpty()) {
             return tFoundFields;
         }
-        throw new IllegalStateException(NO_SUCH_FIELD+LINE_BREAK
-                +"\t类: "+pClazz.getName()+LINE_BREAK
-                +"\t值域过滤器类: "+pFilter.getClass().getName(),new NoSuchFieldException());
+        throw new IllegalStateException(NO_SUCH_FIELD + LINE_BREAK
+                + "\t类: " + pClazz.getName() + LINE_BREAK
+                + "\t值域过滤器类: " + pFilter.getClass().getName(), new NoSuchFieldException());
     }
 
     // --------====| 获取值域值的方法 |====--------
@@ -281,8 +281,8 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             反射操作发生异常
      */
-    public static Object getStaticFieldValue(Field pField){
-        return FieldUtil.getFieldValue(pField,(Object)null);
+    public static Object getStaticFieldValue(Field pField) {
+        return FieldUtil.getFieldValue(pField, (Object)null);
     }
 
     /**
@@ -296,12 +296,12 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             反射操作发生异常
      */
-    public static Object getFieldValue(Field pField,Object pObj){
-        try{
+    public static Object getFieldValue(Field pField, Object pObj) {
+        try {
             pField.setAccessible(true);
             return pField.get(pObj);
-        }catch(IllegalArgumentException|IllegalAccessException exp){
-            throw new IllegalStateException(REFLACT_OP_ERROR,exp);
+        } catch (IllegalArgumentException | IllegalAccessException exp) {
+            throw new IllegalStateException(REFLACT_OP_ERROR, exp);
         }
     }
 
@@ -316,8 +316,8 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             没有符合条件的值域
      */
-    public static Object getStaticFieldValue(Class<?> pClazz,String pFieldName){
-        return FieldUtil.getFieldValue(FieldUtil.getField(pClazz,pFieldName,false),(Object)null);
+    public static Object getStaticFieldValue(Class<?> pClazz, String pFieldName) {
+        return FieldUtil.getFieldValue(FieldUtil.getField(pClazz, pFieldName, false), (Object)null);
     }
 
     /**
@@ -331,8 +331,8 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             没有符合条件的值域
      */
-    public static Object getStaticDeclaredFieldValue(Class<?> pClazz,String pFieldName){
-        return FieldUtil.getFieldValue(FieldUtil.getField(pClazz,pFieldName,true),(Object)null);
+    public static Object getStaticDeclaredFieldValue(Class<?> pClazz, String pFieldName) {
+        return FieldUtil.getFieldValue(FieldUtil.getField(pClazz, pFieldName, true), (Object)null);
     }
 
     /**
@@ -348,8 +348,8 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             没有符合条件的值域
      */
-    public static Object getStaticFieldValue(Class<?> pClazz,String pFieldName,boolean pDeclared){
-        return FieldUtil.getFieldValue(FieldUtil.getField(pClazz,pFieldName,pDeclared),(Object)null);
+    public static Object getStaticFieldValue(Class<?> pClazz, String pFieldName, boolean pDeclared) {
+        return FieldUtil.getFieldValue(FieldUtil.getField(pClazz, pFieldName, pDeclared), (Object)null);
     }
 
     /**
@@ -365,8 +365,8 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             没有符合条件的值域
      */
-    public static Object getFieldValue(Class<?> pClazz,String pFieldName,Object pObj){
-        return FieldUtil.getFieldValue(FieldUtil.getField(pClazz,pFieldName,false),pObj);
+    public static Object getFieldValue(Class<?> pClazz, String pFieldName, Object pObj) {
+        return FieldUtil.getFieldValue(FieldUtil.getField(pClazz, pFieldName, false), pObj);
     }
 
     /**
@@ -382,8 +382,8 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             没有符合条件的值域
      */
-    public static Object getDeclaredFieldValue(Class<?> pClazz,String pFieldName,Object pObj){
-        return FieldUtil.getFieldValue(FieldUtil.getField(pClazz,pFieldName,true),pObj);
+    public static Object getDeclaredFieldValue(Class<?> pClazz, String pFieldName, Object pObj) {
+        return FieldUtil.getFieldValue(FieldUtil.getField(pClazz, pFieldName, true), pObj);
     }
 
     /**
@@ -401,8 +401,8 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             没有符合条件的值域
      */
-    public static Object getFieldValue(Class<?> pClazz,String pFieldName,boolean pDeclared,Object pObj){
-        return FieldUtil.getFieldValue(FieldUtil.getField(pClazz,pFieldName,pDeclared),pObj);
+    public static Object getFieldValue(Class<?> pClazz, String pFieldName, boolean pDeclared, Object pObj) {
+        return FieldUtil.getFieldValue(FieldUtil.getField(pClazz, pFieldName, pDeclared), pObj);
     }
 
     /**
@@ -418,8 +418,8 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             反射操作发生异常,或没有符合条件的值域
      */
-    public static <T> CList<T> getStaticFieldValue(Class<?> pClazz,IFilter<Field> pFilter,boolean pDeclared){
-        return FieldUtil.getFieldValue(pClazz,pFilter,pDeclared,(Object)null);
+    public static <T> CList<T> getStaticFieldValue(Class<?> pClazz, IFilter<Field> pFilter, boolean pDeclared) {
+        return FieldUtil.getFieldValue(pClazz, pFilter, pDeclared, (Object)null);
     }
 
     /**
@@ -437,10 +437,10 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             反射操作发生异常,或没有符合条件的值域
      */
-    public static CList getFieldValue(Class<?> pClazz,IFilter<Field> pFilter,boolean pDeclared,Object pObj){
-        CList tFieldValues=new CList<>();
-        for(Field sField : FieldUtil.getField(pClazz,pFilter,pDeclared)){
-            tFieldValues.add(FieldUtil.getFieldValue(sField,pObj));
+    public static CList getFieldValue(Class<?> pClazz, IFilter<Field> pFilter, boolean pDeclared, Object pObj) {
+        CList tFieldValues = new CList<>();
+        for (Field sField : FieldUtil.getField(pClazz, pFilter, pDeclared)) {
+            tFieldValues.add(FieldUtil.getFieldValue(sField, pObj));
         }
         return tFieldValues;
     }
@@ -457,8 +457,8 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             反射操作发生异常
      */
-    public static void setStaticFieldValue(Field pField,Object pValue){
-        FieldUtil.setFieldValue(pField,(Object)null,pValue);
+    public static void setStaticFieldValue(Field pField, Object pValue) {
+        FieldUtil.setFieldValue(pField, (Object)null, pValue);
     }
 
     /**
@@ -473,12 +473,12 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             反射操作发生异常
      */
-    public static void setFieldValue(Field pField,Object pObj,Object pValue){
-        try{
+    public static void setFieldValue(Field pField, Object pObj, Object pValue) {
+        try {
             pField.setAccessible(true);
-            pField.set(pObj,pValue);
-        }catch(IllegalArgumentException|IllegalAccessException exp){
-            throw new IllegalStateException(REFLACT_OP_ERROR,exp);
+            pField.set(pObj, pValue);
+        } catch (IllegalArgumentException | IllegalAccessException exp) {
+            throw new IllegalStateException(REFLACT_OP_ERROR, exp);
         }
     }
 
@@ -494,8 +494,8 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             反射操作发生异常,或没有符合条件的值域
      */
-    public static void setStaticFieldValue(Class<?> pClazz,String pFieldName,Object pValue){
-        FieldUtil.setFieldValue(pClazz,pFieldName,false,(Object)null,pValue);
+    public static void setStaticFieldValue(Class<?> pClazz, String pFieldName, Object pValue) {
+        FieldUtil.setFieldValue(pClazz, pFieldName, false, (Object)null, pValue);
     }
 
     /**
@@ -510,8 +510,8 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             反射操作发生异常,或没有符合条件的值域
      */
-    public static void setStaticDeclaredFieldValue(Class<?> pClazz,String pFieldName,Object pValue){
-        FieldUtil.setFieldValue(pClazz,pFieldName,true,(Object)null,pValue);
+    public static void setStaticDeclaredFieldValue(Class<?> pClazz, String pFieldName, Object pValue) {
+        FieldUtil.setFieldValue(pClazz, pFieldName, true, (Object)null, pValue);
     }
 
     /**
@@ -528,8 +528,8 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             反射操作发生异常,或没有符合条件的值域
      */
-    public static void setStaticFieldValue(Class<?> pClazz,String pFieldName,boolean pDeclared,Object pValue){
-        FieldUtil.setFieldValue(pClazz,pFieldName,pDeclared,(Object)null,pValue);
+    public static void setStaticFieldValue(Class<?> pClazz, String pFieldName, boolean pDeclared, Object pValue) {
+        FieldUtil.setFieldValue(pClazz, pFieldName, pDeclared, (Object)null, pValue);
     }
 
     /**
@@ -546,8 +546,8 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             反射操作发生异常,或没有符合条件的值域
      */
-    public static void setFieldValue(Class<?> pClazz,String pFieldName,Object pObj,Object pValue){
-        FieldUtil.setFieldValue(FieldUtil.getField(pClazz,pFieldName,false),pObj,pValue);
+    public static void setFieldValue(Class<?> pClazz, String pFieldName, Object pObj, Object pValue) {
+        FieldUtil.setFieldValue(FieldUtil.getField(pClazz, pFieldName, false), pObj, pValue);
     }
 
     /**
@@ -564,8 +564,8 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             反射操作发生异常,或没有符合条件的值域
      */
-    public static void setDeclaredFieldValue(Class<?> pClazz,String pFieldName,Object pObj,Object pValue){
-        FieldUtil.setFieldValue(FieldUtil.getField(pClazz,pFieldName,true),pObj,pValue);
+    public static void setDeclaredFieldValue(Class<?> pClazz, String pFieldName, Object pObj, Object pValue) {
+        FieldUtil.setFieldValue(FieldUtil.getField(pClazz, pFieldName, true), pObj, pValue);
     }
 
     /**
@@ -584,8 +584,8 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             反射操作发生异常,或没有符合条件的值域
      */
-    public static void setFieldValue(Class<?> pClazz,String pFieldName,boolean pDeclared,Object pObj,Object pValue){
-        FieldUtil.setFieldValue(FieldUtil.getField(pClazz,pFieldName,pDeclared),pObj,pValue);
+    public static void setFieldValue(Class<?> pClazz, String pFieldName, boolean pDeclared, Object pObj, Object pValue) {
+        FieldUtil.setFieldValue(FieldUtil.getField(pClazz, pFieldName, pDeclared), pObj, pValue);
     }
 
     /**
@@ -598,8 +598,8 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             反射操作发生异常
      */
-    public static void setFinalFieldValue(Field pField,Object pValue){
-        FieldUtil.setFinalFieldValue(pField,(Object)null,pValue);
+    public static void setFinalFieldValue(Field pField, Object pValue) {
+        FieldUtil.setFinalFieldValue(pField, (Object)null, pValue);
     }
 
     /**
@@ -614,23 +614,97 @@ public class FieldUtil{
      * @throws IllegalStateException
      *             反射操作发生异常
      */
-    public static void setFinalFieldValue(Field pField,Object pObj,Object pValue){
-        try{
+    public static void setFinalFieldValue(Field pField, Object pObj, Object pValue) {
+        try {
             pField.setAccessible(true);
-            boolean tIsFinal=Modifier.isFinal(pField.getModifiers());
-            int tOriginModifer=pField.getModifiers();
-            if(tIsFinal){
-                if(FieldUtil.isDeclaredFieldExist(Field.class, "modifiers"))
-                FieldUtil.setFieldValue(Field.class,"modifiers",true,pField,(tOriginModifer&(~Modifier.FINAL)));
-                // android
-                else FieldUtil.setFieldValue(Field.class,"accessFlags",true,pField,(tOriginModifer&(~Modifier.FINAL)));
+            boolean tIsFinal = Modifier.isFinal(pField.getModifiers());
+            int tOriginModifer = pField.getModifiers();
+            if (tIsFinal) {
+                if (FFC == null) findFinalModifer();
+                FFC.beforeCall(pField);
             }
-            pField.set(pObj,pValue);
-            if(tIsFinal){
-                FieldUtil.setFieldValue(Field.class,"modifiers",true,pField,tOriginModifer);
+            pField.set(pObj, pValue);
+            if (tIsFinal) {
+                FFC.afterCall(pField);
             }
-        }catch(IllegalArgumentException|IllegalAccessException exp){
-            throw new IllegalStateException(REFLACT_OP_ERROR,exp);
+        } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException exp) {
+            throw new IllegalStateException(REFLACT_OP_ERROR, exp);
         }
+    }
+
+    private static FinalFieldCall FFC = null;
+    private final static String mTest = "";
+
+    private abstract static class FinalFieldCall {
+
+        public abstract void beforeCall(Field pField);
+
+        public abstract void afterCall(Field pField);
+    }
+
+    private synchronized static void findFinalModifer() throws NoSuchFieldException {
+        if (FFC != null) return;
+
+        Field tModifierF = null;
+        for (String sFName : new String[]{"modifiers", "accessFlags"}) {
+            if (FieldUtil.isDeclaredFieldExist(Field.class, "modifiers")) {
+                tModifierF = FieldUtil.getDeclaredField(Field.class, sFName);
+                break;
+            }
+        }
+
+        Field tField = FieldUtil.getDeclaredField(FieldUtil.class, "mTest");
+        if (tModifierF == null) {
+            CList<Field> tFields = FieldUtil.getField(Field.class, (pField) -> pField.getType() == int.class);
+            for (Field sField : tFields) {
+                int tOrignV = (int)FieldUtil.getFieldValue(sField, tField);
+                if ((tOrignV & 0xffff) == tField.getModifiers()) { //android
+                    tModifierF = sField;
+                    break;
+                }
+            }
+        }
+
+        if (tModifierF != null) {
+            final Field tModifierField = tModifierF;
+            FFC = new FinalFieldCall() {
+
+                @Override
+                public void beforeCall(Field pField) {
+                    FieldUtil.setFieldValue(tModifierField, pField, (pField.getModifiers() & (~Modifier.FINAL)));
+                }
+
+                @Override
+                public void afterCall(Field pField) {
+                    FieldUtil.setFieldValue(tModifierField, pField, (pField.getModifiers() | (Modifier.FINAL)));
+                }
+            };
+            return;
+        } else {
+            // android 5.1
+            if (FieldUtil.isDeclaredFieldExist(Field.class, "artField")) {
+                final Field field_ArtField = FieldUtil.getField(Field.class, "artField");
+                Class<?> tClazz_ArtField = field_ArtField.getType();
+                final Field field_ArtField_accessFlags = FieldUtil.getDeclaredField(tClazz_ArtField, "accessFlags");
+
+                FFC = new FinalFieldCall() {
+
+                    @Override
+                    public void beforeCall(Field pField) {
+                        Object tObj_ArtField = FieldUtil.getFieldValue(field_ArtField, pField);
+                        FieldUtil.setFieldValue(field_ArtField_accessFlags, tObj_ArtField, (pField.getModifiers() & (~Modifier.FINAL)));
+                    }
+
+                    @Override
+                    public void afterCall(Field pField) {
+                        Object tObj_ArtField = FieldUtil.getFieldValue(field_ArtField, pField);
+                        FieldUtil.setFieldValue(field_ArtField_accessFlags, tObj_ArtField, (pField.getModifiers() | (Modifier.FINAL)));
+                    }
+                };
+                return;
+            }
+
+        }
+        throw new NoSuchFieldException("No accessFlag find!");
     }
 }
