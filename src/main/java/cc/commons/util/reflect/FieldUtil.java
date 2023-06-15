@@ -17,7 +17,7 @@ public class FieldUtil {
             throw new IllegalArgumentException("至少需要一个值域名");
     }
 
-    public CList<Field> getAllField(Class<?> pClazz) {
+    public static CList<Field> getAllField(Class<?> pClazz) {
         CList<Field> tFields = new CList<>();
         while (pClazz != null) {
             for (Field sField : pClazz.getDeclaredFields()) {

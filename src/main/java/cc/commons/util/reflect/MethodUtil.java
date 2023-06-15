@@ -61,7 +61,7 @@ public class MethodUtil{
      *            参数类型
      * @return 是否存在
      */
-    public boolean isMethodExist(Class<?> pClazz,String pMethodName,Class<?>...pType){
+    public static boolean isMethodExist(Class<?> pClazz,String pMethodName,Class<?>...pType){
         return MethodUtil.isMethodExist(pClazz,pMethodName,pType,false);
     }
 
@@ -76,7 +76,7 @@ public class MethodUtil{
      *            参数类型
      * @return 是否存在
      */
-    public boolean isDeclaredMethodExist(Class<?> pClazz,String pMethodName,Class<?>...pType){
+    public static boolean isDeclaredMethodExist(Class<?> pClazz,String pMethodName,Class<?>...pType){
         return MethodUtil.isMethodExist(pClazz,pMethodName,pType,true);
     }
 
