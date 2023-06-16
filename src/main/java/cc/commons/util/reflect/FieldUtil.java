@@ -255,6 +255,7 @@ public class FieldUtil {
         CList<Field> tFoundFields = new CList<>();
         do {
             Field[] tFields = tClass.getDeclaredFields();
+            if (tFields.length == 0) return tFoundFields;
             for (Field sField : tFields) {
                 if (pFilter.accept(sField)) {
                     tFoundFields.add(sField);

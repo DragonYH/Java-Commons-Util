@@ -11,21 +11,21 @@ import cc.commons.util.interfaces.IFilter;
 /**
  * 工具类中的所有参数请严格格式,未注明的地方请勿使用null代替 *
  */
-public class MethodUtil{
+public class MethodUtil {
 
-    private static final String REFLACT_OP_ERROR="反射操作异常";
-    private static final String NO_SUCH_METHOD="未找到该类型的方法";
-    private static final String LINE_BREAK=System.getProperty("line.separator","\n");
+    private static final String REFLACT_OP_ERROR = "反射操作异常";
+    private static final String NO_SUCH_METHOD = "未找到该类型的方法";
+    private static final String LINE_BREAK = System.getProperty("line.separator", "\n");
 
-    private static void checkMethodA(String[] pMethodNames){
-        if(pMethodNames==null||pMethodNames.length==0)
+    private static void checkMethodA(String[] pMethodNames) {
+        if (pMethodNames == null || pMethodNames.length == 0)
             throw new IllegalArgumentException("至少需要一个方法名");
     }
 
     @SuppressWarnings("unchecked")
-    private static <T> T[] checkTypeA(Class<T> pClazz,T[] pParamTypes){
-        if(pParamTypes==null){
-            pParamTypes=(T[])Array.newInstance(pClazz,0);
+    private static <T> T[] checkTypeA(Class<T> pClazz, T[] pParamTypes) {
+        if (pParamTypes == null) {
+            pParamTypes = (T[])Array.newInstance(pClazz, 0);
         }
         return pParamTypes;
     }
@@ -40,12 +40,12 @@ public class MethodUtil{
      * @param pDeclared
      *            是否只打印该类定义的方法而不检索父类的值域
      */
-    public static void printMethod(Class<?> pClazz,boolean pDeclared){
-        do{
-            for(Method sMethod : pClazz.getDeclaredMethods()){
+    public static void printMethod(Class<?> pClazz, boolean pDeclared) {
+        do {
+            for (Method sMethod : pClazz.getDeclaredMethods()) {
                 System.out.println(sMethod);
             }
-        }while(!pDeclared&&(pClazz=pClazz.getSuperclass())!=null);
+        } while (!pDeclared && (pClazz = pClazz.getSuperclass()) != null);
     }
 
     // --------====| 检查方法 |====--------
@@ -61,8 +61,8 @@ public class MethodUtil{
      *            参数类型
      * @return 是否存在
      */
-    public static boolean isMethodExist(Class<?> pClazz,String pMethodName,Class<?>...pType){
-        return MethodUtil.isMethodExist(pClazz,pMethodName,pType,false);
+    public static boolean isMethodExist(Class<?> pClazz, String pMethodName, Class<?>...pType) {
+        return MethodUtil.isMethodExist(pClazz, pMethodName, pType, false);
     }
 
     /**
@@ -76,8 +76,8 @@ public class MethodUtil{
      *            参数类型
      * @return 是否存在
      */
-    public static boolean isDeclaredMethodExist(Class<?> pClazz,String pMethodName,Class<?>...pType){
-        return MethodUtil.isMethodExist(pClazz,pMethodName,pType,true);
+    public static boolean isDeclaredMethodExist(Class<?> pClazz, String pMethodName, Class<?>...pType) {
+        return MethodUtil.isMethodExist(pClazz, pMethodName, pType, true);
     }
 
     /**
@@ -91,8 +91,8 @@ public class MethodUtil{
      *            是否只检索该类定义的方法而不检索父类的值域
      * @return 是否存在
      */
-    public static boolean isMethodExist(Class<?> pClazz,String pMethodName,boolean pDeclared){
-        return MethodUtil.isMethodExist(pClazz,pMethodName,new Class<?>[0],pDeclared);
+    public static boolean isMethodExist(Class<?> pClazz, String pMethodName, boolean pDeclared) {
+        return MethodUtil.isMethodExist(pClazz, pMethodName, new Class<?>[0], pDeclared);
     }
 
     /**
@@ -108,8 +108,8 @@ public class MethodUtil{
      *            是否只检索该类定义的方法而不检索父类的值域
      * @return 是否存在
      */
-    public static boolean isMethodExist(Class<?> pClazz,String pMethodName,Class<?> pParamType,boolean pDeclared){
-        return MethodUtil.isMethodExist(pClazz,pMethodName,new Class<?>[]{pParamType},pDeclared);
+    public static boolean isMethodExist(Class<?> pClazz, String pMethodName, Class<?> pParamType, boolean pDeclared) {
+        return MethodUtil.isMethodExist(pClazz, pMethodName, new Class<?>[]{pParamType}, pDeclared);
     }
 
     /**
@@ -125,14 +125,14 @@ public class MethodUtil{
      *            是否只检索该类定义的方法而不检索父类的值域
      * @return 是否存在
      */
-    public static boolean isMethodExist(Class<?> pClazz,String pMethodName,Class<?>[] pParamTypes,boolean pDeclared){
-        do{
-            for(Method sMethod : pClazz.getDeclaredMethods()){
-                if(sMethod.getName().equals(pMethodName)&&Arrays.equals(sMethod.getParameterTypes(),pParamTypes)){
+    public static boolean isMethodExist(Class<?> pClazz, String pMethodName, Class<?>[] pParamTypes, boolean pDeclared) {
+        do {
+            for (Method sMethod : pClazz.getDeclaredMethods()) {
+                if (sMethod.getName().equals(pMethodName) && Arrays.equals(sMethod.getParameterTypes(), pParamTypes)) {
                     return true;
                 }
             }
-        }while(!pDeclared&&(pClazz=pClazz.getSuperclass())!=null);
+        } while (!pDeclared && (pClazz = pClazz.getSuperclass()) != null);
 
         return false;
     }
@@ -146,8 +146,8 @@ public class MethodUtil{
      *            方法过滤器
      * @return 是否存在
      */
-    public static boolean isMethodExist(Class<?> pClazz,IFilter<Method> pFilter){
-        return MethodUtil.isMethodExist(pClazz,pFilter,false);
+    public static boolean isMethodExist(Class<?> pClazz, IFilter<Method> pFilter) {
+        return MethodUtil.isMethodExist(pClazz, pFilter, false);
     }
 
     /**
@@ -159,8 +159,8 @@ public class MethodUtil{
      *            方法过滤器
      * @return 是否存在
      */
-    public static boolean isDeclaredMethodExist(Class<?> pClazz,IFilter<Method> pFilter){
-        return MethodUtil.isMethodExist(pClazz,pFilter,true);
+    public static boolean isDeclaredMethodExist(Class<?> pClazz, IFilter<Method> pFilter) {
+        return MethodUtil.isMethodExist(pClazz, pFilter, true);
     }
 
     /**
@@ -174,14 +174,14 @@ public class MethodUtil{
      *            是否只检索该类定义的方法而不检索父类的值域
      * @return 是否存在
      */
-    public static boolean isMethodExist(Class<?> pClazz,IFilter<Method> pFilter,boolean pDeclared){
-        do{
-            for(Method sMethod : pClazz.getDeclaredMethods()){
-                if(pFilter.accept(sMethod)){
+    public static boolean isMethodExist(Class<?> pClazz, IFilter<Method> pFilter, boolean pDeclared) {
+        do {
+            for (Method sMethod : pClazz.getDeclaredMethods()) {
+                if (pFilter.accept(sMethod)) {
                     return true;
                 }
             }
-        }while(!pDeclared&&(pClazz=pClazz.getSuperclass())!=null);
+        } while (!pDeclared && (pClazz = pClazz.getSuperclass()) != null);
 
         return false;
     }
@@ -195,8 +195,8 @@ public class MethodUtil{
      *            方法,只比较名字,返回类型,参数类型\
      * @return 是否存在
      */
-    public static boolean isMethodExist(Class<?> pClazz,Method pMethod){
-        return MethodUtil.isMethodExist(pClazz,pMethod,false);
+    public static boolean isMethodExist(Class<?> pClazz, Method pMethod) {
+        return MethodUtil.isMethodExist(pClazz, pMethod, false);
     }
 
     /**
@@ -208,8 +208,8 @@ public class MethodUtil{
      *            方法,只比较名字,返回类型,参数类型\
      * @return 是否存在
      */
-    public static boolean isDeclaredMethodExist(Class<?> pClazz,Method pMethod){
-        return MethodUtil.isMethodExist(pClazz,pMethod,true);
+    public static boolean isDeclaredMethodExist(Class<?> pClazz, Method pMethod) {
+        return MethodUtil.isMethodExist(pClazz, pMethod, true);
     }
 
     /**
@@ -223,14 +223,14 @@ public class MethodUtil{
      *            是否只检索该类定义的方法而不检索父类的值域
      * @return 是否存在
      */
-    public static boolean isMethodExist(Class<?> pClazz,Method pMethod,boolean pDeclared){
-        do{
-            for(Method sMethod : pClazz.getDeclaredMethods()){
-                if(pMethod.getReturnType()==sMethod.getReturnType()&&pMethod.getName().equals(sMethod.getName())&&Arrays.equals(pMethod.getParameterTypes(),sMethod.getParameterTypes())){
+    public static boolean isMethodExist(Class<?> pClazz, Method pMethod, boolean pDeclared) {
+        do {
+            for (Method sMethod : pClazz.getDeclaredMethods()) {
+                if (pMethod.getReturnType() == sMethod.getReturnType() && pMethod.getName().equals(sMethod.getName()) && Arrays.equals(pMethod.getParameterTypes(), sMethod.getParameterTypes())) {
                     return true;
                 }
             }
-        }while(!pDeclared&&(pClazz=pClazz.getSuperclass())!=null);
+        } while (!pDeclared && (pClazz = pClazz.getSuperclass()) != null);
 
         return false;
     }
@@ -248,25 +248,25 @@ public class MethodUtil{
      *            是否只检索该类定义的方法而不检索父类的方法
      * @return 符合的方法,非空
      */
-    public static CList<Method> getMethodIgnoreParam(Class<?> pClazz,String pMethodName,boolean pDeclared){
-        Class<?> tClazz=pClazz;
-        CList<Method> tMethods=new CList<>();
-        do{
-            for(Method sMethod : tClazz.getDeclaredMethods()){
-                if(sMethod.getName().equals(pMethodName)){
+    public static CList<Method> getMethodIgnoreParam(Class<?> pClazz, String pMethodName, boolean pDeclared) {
+        Class<?> tClazz = pClazz;
+        CList<Method> tMethods = new CList<>();
+        do {
+            for (Method sMethod : tClazz.getDeclaredMethods()) {
+                if (sMethod.getName().equals(pMethodName)) {
                     tMethods.add(sMethod);
                 }
 
             }
-        }while(!pDeclared&&(tClazz=tClazz.getSuperclass())!=null);
+        } while (!pDeclared && (tClazz = tClazz.getSuperclass()) != null);
 
-        if(!tMethods.isEmpty()){
+        if (!tMethods.isEmpty()) {
             return tMethods;
         }
 
-        throw new IllegalStateException(NO_SUCH_METHOD+LINE_BREAK
-                +"\t类: "+pClazz.getName()+LINE_BREAK
-                +"\t方法名: "+pMethodName,new NoSuchMethodException());
+        throw new IllegalStateException(NO_SUCH_METHOD + LINE_BREAK
+                + "\t类: " + pClazz.getName() + LINE_BREAK
+                + "\t方法名: " + pMethodName, new NoSuchMethodException());
     }
 
     /**
@@ -280,8 +280,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法
      */
-    public static Method getMethod(Class<?> pClazz,String pMethodName){
-        return MethodUtil.getMethod(pClazz,pMethodName,new Class<?>[0],false);
+    public static Method getMethod(Class<?> pClazz, String pMethodName) {
+        return MethodUtil.getMethod(pClazz, pMethodName, new Class<?>[0], false);
     }
 
     /**
@@ -295,8 +295,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法
      */
-    public static Method getDeclaredMethod(Class<?> pClazz,String pMethodName){
-        return MethodUtil.getMethod(pClazz,pMethodName,new Class<?>[0],true);
+    public static Method getDeclaredMethod(Class<?> pClazz, String pMethodName) {
+        return MethodUtil.getMethod(pClazz, pMethodName, new Class<?>[0], true);
     }
 
     /**
@@ -312,8 +312,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法
      */
-    public static Method getMethod(Class<?> pClazz,String pMethodName,boolean pDeclared){
-        return MethodUtil.getMethod(pClazz,pMethodName,new Class<?>[0],pDeclared);
+    public static Method getMethod(Class<?> pClazz, String pMethodName, boolean pDeclared) {
+        return MethodUtil.getMethod(pClazz, pMethodName, new Class<?>[0], pDeclared);
     }
 
     /**
@@ -329,8 +329,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法
      */
-    public static Method getMethod(Class<?> pClazz,String pMethodName,Class<?> pParamType){
-        return MethodUtil.getMethod(pClazz,pMethodName,new Class<?>[]{pParamType},false);
+    public static Method getMethod(Class<?> pClazz, String pMethodName, Class<?> pParamType) {
+        return MethodUtil.getMethod(pClazz, pMethodName, new Class<?>[]{pParamType}, false);
     }
 
     /**
@@ -346,8 +346,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法
      */
-    public static Method getDeclaredMethod(Class<?> pClazz,String pMethodName,Class<?>...pParamType){
-        return MethodUtil.getMethod(pClazz,pMethodName,pParamType,true);
+    public static Method getDeclaredMethod(Class<?> pClazz, String pMethodName, Class<?>...pParamType) {
+        return MethodUtil.getMethod(pClazz, pMethodName, pParamType, true);
     }
 
     /**
@@ -364,8 +364,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法
      */
-    public static Method getMethod(Class<?> pClazz,String pMethodName,Class<?> pParamType,boolean pDeclared){
-        return MethodUtil.getMethod(pClazz,pMethodName,new Class<?>[]{pParamType},pDeclared);
+    public static Method getMethod(Class<?> pClazz, String pMethodName, Class<?> pParamType, boolean pDeclared) {
+        return MethodUtil.getMethod(pClazz, pMethodName, new Class<?>[]{pParamType}, pDeclared);
     }
 
     /**
@@ -383,20 +383,20 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法
      */
-    public static Method getMethod(Class<?> pClazz,String pMethodName,Class<?>[] pParamsTypes,boolean pDeclared){
-        Class<?> tClazz=pClazz;
-        do{
-            for(Method sMethod : tClazz.getDeclaredMethods()){
-                if(sMethod.getName().equals(pMethodName)&&Arrays.equals(sMethod.getParameterTypes(),pParamsTypes)){
+    public static Method getMethod(Class<?> pClazz, String pMethodName, Class<?>[] pParamsTypes, boolean pDeclared) {
+        Class<?> tClazz = pClazz;
+        do {
+            for (Method sMethod : tClazz.getDeclaredMethods()) {
+                if (sMethod.getName().equals(pMethodName) && Arrays.equals(sMethod.getParameterTypes(), pParamsTypes)) {
                     return sMethod;
                 }
             }
-        }while(!pDeclared&&(tClazz=tClazz.getSuperclass())!=null);
+        } while (!pDeclared && (tClazz = tClazz.getSuperclass()) != null);
 
-        throw new IllegalStateException(NO_SUCH_METHOD+LINE_BREAK
-                +"\t类: "+pClazz.getName()+LINE_BREAK
-                +"\t方法名: "+pMethodName+LINE_BREAK
-                +"\t方法参数: "+Arrays.toString(pParamsTypes),new NoSuchMethodException());
+        throw new IllegalStateException(NO_SUCH_METHOD + LINE_BREAK
+                + "\t类: " + pClazz.getName() + LINE_BREAK
+                + "\t方法名: " + pMethodName + LINE_BREAK
+                + "\t方法参数: " + Arrays.toString(pParamsTypes), new NoSuchMethodException());
     }
 
     /**
@@ -408,8 +408,8 @@ public class MethodUtil{
      *            方法过滤器
      * @return 所有包括父类符合条件的方法
      */
-    public static CList<Method> getMethod(Class<?> pClazz,IFilter<Method> pFilter){
-        return MethodUtil.getMethod(pClazz,pFilter,false);
+    public static CList<Method> getMethod(Class<?> pClazz, IFilter<Method> pFilter) {
+        return MethodUtil.getMethod(pClazz, pFilter, false);
     }
 
     /**
@@ -421,8 +421,8 @@ public class MethodUtil{
      *            方法过滤器
      * @return 该类符合条件的所有方法
      */
-    public static CList<Method> getDeclaredMethod(Class<?> pClazz,IFilter<Method> pFilter){
-        return MethodUtil.getMethod(pClazz,pFilter,true);
+    public static CList<Method> getDeclaredMethod(Class<?> pClazz, IFilter<Method> pFilter) {
+        return MethodUtil.getMethod(pClazz, pFilter, true);
     }
 
     /**
@@ -438,24 +438,26 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法
      */
-    public static CList<Method> getMethod(Class<?> pClazz,IFilter<Method> pFilter,boolean pDeclared){
-        Class<?> tClazz=pClazz;
-        CList<Method> tFoundMethods=new CList<>();
-        do{
-            for(Method sMethod : tClazz.getDeclaredMethods()){
-                if(pFilter.accept(sMethod)){
+    public static CList<Method> getMethod(Class<?> pClazz, IFilter<Method> pFilter, boolean pDeclared) {
+        Class<?> tClazz = pClazz;
+        CList<Method> tFoundMethods = new CList<>();
+        boolean tHasMethod = false;
+        do {
+            for (Method sMethod : tClazz.getDeclaredMethods()) {
+                tHasMethod = true;
+                if (pFilter.accept(sMethod)) {
                     tFoundMethods.add(sMethod);
                 }
             }
-        }while(!pDeclared&&(tClazz=tClazz.getSuperclass())!=null);
+        } while (!pDeclared && (tClazz = tClazz.getSuperclass()) != null);
 
-        if(!tFoundMethods.isEmpty()){
+        if (!tHasMethod || !tFoundMethods.isEmpty()) {
             return tFoundMethods;
         }
 
-        throw new IllegalStateException(NO_SUCH_METHOD+LINE_BREAK
-                +"\t类: "+pClazz.getName()+LINE_BREAK
-                +"\t方法过滤器类型: "+pFilter.getClass().getName(),new NoSuchMethodException());
+        throw new IllegalStateException(NO_SUCH_METHOD + LINE_BREAK
+                + "\t类: " + pClazz.getName() + LINE_BREAK
+                + "\t方法过滤器类型: " + pFilter.getClass().getName(), new NoSuchMethodException());
     }
 
     // --------====| 执行方法 |====--------
@@ -469,8 +471,8 @@ public class MethodUtil{
      *            参数
      * @return 方法返回值
      */
-    public static Object invokeStaticMethod(Method pMethod,Object...pParams){
-        return MethodUtil.invokeMethod(pMethod,(Object)null,pParams);
+    public static Object invokeStaticMethod(Method pMethod, Object...pParams) {
+        return MethodUtil.invokeMethod(pMethod, (Object)null, pParams);
     }
 
     /**
@@ -484,12 +486,12 @@ public class MethodUtil{
      *            参数
      * @return 方法返回值
      */
-    public static Object invokeMethod(Method pMethod,Object pObj,Object...pParams){
-        try{
+    public static Object invokeMethod(Method pMethod, Object pObj, Object...pParams) {
+        try {
             pMethod.setAccessible(true);
-            return pMethod.invoke(pObj,pParams);
-        }catch(IllegalAccessException|IllegalArgumentException|InvocationTargetException|SecurityException exp){
-            throw new IllegalStateException(REFLACT_OP_ERROR,exp);
+            return pMethod.invoke(pObj, pParams);
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException exp) {
+            throw new IllegalStateException(REFLACT_OP_ERROR, exp);
         }
     }
 
@@ -504,8 +506,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeStaticMethod(Class<?> pClazz,String pMethodName){
-        return MethodUtil.invokeMethod(pClazz,pMethodName,new Class<?>[0],false,(Object)null,new Object[0]);
+    public static Object invokeStaticMethod(Class<?> pClazz, String pMethodName) {
+        return MethodUtil.invokeMethod(pClazz, pMethodName, new Class<?>[0], false, (Object)null, new Object[0]);
     }
 
     /**
@@ -519,8 +521,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeStaticDeclaredMethod(Class<?> pClazz,String pMethodName){
-        return MethodUtil.invokeMethod(pClazz,pMethodName,new Class<?>[0],true,(Object)null,new Object[0]);
+    public static Object invokeStaticDeclaredMethod(Class<?> pClazz, String pMethodName) {
+        return MethodUtil.invokeMethod(pClazz, pMethodName, new Class<?>[0], true, (Object)null, new Object[0]);
     }
 
     /**
@@ -536,8 +538,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeStaticMethod(Class<?> pClazz,String pMethodName,boolean pDeclared){
-        return MethodUtil.invokeMethod(pClazz,pMethodName,new Class<?>[0],pDeclared,(Object)null,new Object[0]);
+    public static Object invokeStaticMethod(Class<?> pClazz, String pMethodName, boolean pDeclared) {
+        return MethodUtil.invokeMethod(pClazz, pMethodName, new Class<?>[0], pDeclared, (Object)null, new Object[0]);
     }
 
     /**
@@ -553,8 +555,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeMethod(Class<?> pClazz,String pMethodName,Object pObj){
-        return MethodUtil.invokeMethod(pClazz,pMethodName,new Class<?>[0],false,pObj,new Object[0]);
+    public static Object invokeMethod(Class<?> pClazz, String pMethodName, Object pObj) {
+        return MethodUtil.invokeMethod(pClazz, pMethodName, new Class<?>[0], false, pObj, new Object[0]);
     }
 
     /**
@@ -570,8 +572,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeDeclaredMethod(Class<?> pClazz,String pMethodName,Object pObj){
-        return MethodUtil.invokeMethod(pClazz,pMethodName,new Class<?>[0],true,pObj,new Object[0]);
+    public static Object invokeDeclaredMethod(Class<?> pClazz, String pMethodName, Object pObj) {
+        return MethodUtil.invokeMethod(pClazz, pMethodName, new Class<?>[0], true, pObj, new Object[0]);
     }
 
     /**
@@ -589,8 +591,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeMethod(Class<?> pClazz,String pMethodName,boolean pDeclared,Object pObj){
-        return MethodUtil.invokeMethod(pClazz,pMethodName,new Class<?>[0],pDeclared,pObj,new Object[0]);
+    public static Object invokeMethod(Class<?> pClazz, String pMethodName, boolean pDeclared, Object pObj) {
+        return MethodUtil.invokeMethod(pClazz, pMethodName, new Class<?>[0], pDeclared, pObj, new Object[0]);
     }
 
     /**
@@ -610,8 +612,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeStaticMethod(Class<?> pClazz,String pMethodName,Class<?> pParamType,Object pParam){
-        return MethodUtil.invokeMethod(pClazz,pMethodName,new Class<?>[]{pParamType},false,(Object)null,new Object[]{pParam});
+    public static Object invokeStaticMethod(Class<?> pClazz, String pMethodName, Class<?> pParamType, Object pParam) {
+        return MethodUtil.invokeMethod(pClazz, pMethodName, new Class<?>[]{pParamType}, false, (Object)null, new Object[]{pParam});
     }
 
     /**
@@ -631,8 +633,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeStaticDeclaredMethod(Class<?> pClazz,String pMethodName,Class<?> pParamType,Object pParam){
-        return MethodUtil.invokeMethod(pClazz,pMethodName,new Class<?>[]{pParamType},true,(Object)null,new Object[]{pParam});
+    public static Object invokeStaticDeclaredMethod(Class<?> pClazz, String pMethodName, Class<?> pParamType, Object pParam) {
+        return MethodUtil.invokeMethod(pClazz, pMethodName, new Class<?>[]{pParamType}, true, (Object)null, new Object[]{pParam});
     }
 
     /**
@@ -654,8 +656,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeStaticMethod(Class<?> pClazz,String pMethodName,Class<?> pParamType,boolean pDeclared,Object pParam){
-        return MethodUtil.invokeMethod(pClazz,pMethodName,new Class<?>[]{pParamType},pDeclared,(Object)null,new Object[]{pParam});
+    public static Object invokeStaticMethod(Class<?> pClazz, String pMethodName, Class<?> pParamType, boolean pDeclared, Object pParam) {
+        return MethodUtil.invokeMethod(pClazz, pMethodName, new Class<?>[]{pParamType}, pDeclared, (Object)null, new Object[]{pParam});
     }
 
     /**
@@ -675,8 +677,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeMethod(Class<?> pClazz,String pMethodName,Class<?> pParamType,Object pObj,Object pParam){
-        return MethodUtil.invokeMethod(pClazz,pMethodName,new Class<?>[]{pParamType},false,pObj,new Object[]{pParam});
+    public static Object invokeMethod(Class<?> pClazz, String pMethodName, Class<?> pParamType, Object pObj, Object pParam) {
+        return MethodUtil.invokeMethod(pClazz, pMethodName, new Class<?>[]{pParamType}, false, pObj, new Object[]{pParam});
     }
 
     /**
@@ -696,8 +698,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeDeclaredMethod(Class<?> pClazz,String pMethodName,Class<?> pParamType,Object pObj,Object pParam){
-        return MethodUtil.invokeMethod(pClazz,pMethodName,new Class<?>[]{pParamType},true,pObj,new Object[]{pParam});
+    public static Object invokeDeclaredMethod(Class<?> pClazz, String pMethodName, Class<?> pParamType, Object pObj, Object pParam) {
+        return MethodUtil.invokeMethod(pClazz, pMethodName, new Class<?>[]{pParamType}, true, pObj, new Object[]{pParam});
     }
 
     /**
@@ -719,8 +721,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeMethod(Class<?> pClazz,String pMethodName,Class<?> pParamType,boolean pDeclared,Object pObj,Object pParam){
-        return MethodUtil.invokeMethod(pClazz,pMethodName,new Class<?>[]{pParamType},pDeclared,pObj,new Object[]{pParam});
+    public static Object invokeMethod(Class<?> pClazz, String pMethodName, Class<?> pParamType, boolean pDeclared, Object pObj, Object pParam) {
+        return MethodUtil.invokeMethod(pClazz, pMethodName, new Class<?>[]{pParamType}, pDeclared, pObj, new Object[]{pParam});
     }
 
     /**
@@ -740,8 +742,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeStaticMethod(Class<?> pClazz,String pMethodName,Class<?>[] pParamTypes,Object[] pParams){
-        return MethodUtil.invokeMethod(pClazz,pMethodName,pParamTypes,false,(Object)null,pParams);
+    public static Object invokeStaticMethod(Class<?> pClazz, String pMethodName, Class<?>[] pParamTypes, Object[] pParams) {
+        return MethodUtil.invokeMethod(pClazz, pMethodName, pParamTypes, false, (Object)null, pParams);
     }
 
     /**
@@ -761,8 +763,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeStaticDeclaredMethod(Class<?> pClazz,String pMethodName,Class<?>[] pParamTypes,Object[] pParams){
-        return MethodUtil.invokeMethod(pClazz,pMethodName,pParamTypes,true,(Object)null,pParams);
+    public static Object invokeStaticDeclaredMethod(Class<?> pClazz, String pMethodName, Class<?>[] pParamTypes, Object[] pParams) {
+        return MethodUtil.invokeMethod(pClazz, pMethodName, pParamTypes, true, (Object)null, pParams);
     }
 
     /**
@@ -784,8 +786,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeStaticMethod(Class<?> pClazz,String pMethodName,Class<?>[] pParamTypes,boolean pDeclared,Object[] pParams){
-        return MethodUtil.invokeMethod(pClazz,pMethodName,pParamTypes,pDeclared,(Object)null,pParams);
+    public static Object invokeStaticMethod(Class<?> pClazz, String pMethodName, Class<?>[] pParamTypes, boolean pDeclared, Object[] pParams) {
+        return MethodUtil.invokeMethod(pClazz, pMethodName, pParamTypes, pDeclared, (Object)null, pParams);
     }
 
     /**
@@ -805,8 +807,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeMethod(Class<?> pClazz,String pMethodName,Class<?>[] pParamTypes,Object pObj,Object[] pParams){
-        return MethodUtil.invokeMethod(MethodUtil.getMethod(pClazz,pMethodName,pParamTypes,false),pObj,pParams);
+    public static Object invokeMethod(Class<?> pClazz, String pMethodName, Class<?>[] pParamTypes, Object pObj, Object[] pParams) {
+        return MethodUtil.invokeMethod(MethodUtil.getMethod(pClazz, pMethodName, pParamTypes, false), pObj, pParams);
     }
 
     /**
@@ -826,8 +828,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeDeclaredMethod(Class<?> pClazz,String pMethodName,Class<?>[] pParamTypes,Object pObj,Object[] pParams){
-        return MethodUtil.invokeMethod(MethodUtil.getMethod(pClazz,pMethodName,pParamTypes,true),pObj,pParams);
+    public static Object invokeDeclaredMethod(Class<?> pClazz, String pMethodName, Class<?>[] pParamTypes, Object pObj, Object[] pParams) {
+        return MethodUtil.invokeMethod(MethodUtil.getMethod(pClazz, pMethodName, pParamTypes, true), pObj, pParams);
     }
 
     /**
@@ -849,8 +851,8 @@ public class MethodUtil{
      * @throws IllegalStateException
      *             没有匹配的方法,或反射操作发生异常
      */
-    public static Object invokeMethod(Class<?> pClazz,String pMethodName,Class<?>[] pParamTypes,boolean pDeclared,Object pObj,Object[] pParams){
-        return MethodUtil.invokeMethod(MethodUtil.getMethod(pClazz,pMethodName,pParamTypes,pDeclared),pObj,pParams);
+    public static Object invokeMethod(Class<?> pClazz, String pMethodName, Class<?>[] pParamTypes, boolean pDeclared, Object pObj, Object[] pParams) {
+        return MethodUtil.invokeMethod(MethodUtil.getMethod(pClazz, pMethodName, pParamTypes, pDeclared), pObj, pParams);
     }
 
 }
